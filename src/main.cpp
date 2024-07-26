@@ -1,14 +1,19 @@
 #include "game.h"
-#include "menu.h"
 
-int main() {
-    Menu menu;
-    menu.display();
+Game* game = nullptr;
 
-    Game game;
-    game.init();
-    game.update();
-    game.render();
+int main(int argc, char* argv[]) {
+    game = new Game();
+
+    game->init("HEAVEN PONG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+
+    while (game->isRunning) {
+        game->handleEvents();
+        game->update();
+        game->render();
+    }
+
+    game->clean();
 
     return 0;
 }
