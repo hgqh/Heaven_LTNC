@@ -8,7 +8,7 @@ public:
     int width, height;
     void moveUp();
     void moveDown();
-    void draw() override;
+    void draw(SDL_Renderer* renderer) override;
 };
 
 #endif // PADDLE_H
