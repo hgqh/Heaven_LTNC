@@ -1,13 +1,23 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 class Object {
 public:
-    int x, y;
-    SDL_Rect rect;
-    virtual void draw(SDL_Renderer* renderer) = 0;
+    Object(const char* textureSheet, SDL_Renderer* ren, int x, int y);
+    ~Object();
+
+    void update();
+    void render();
+
+private:
+    int xpos;
+    int ypos;
+
+    SDL_Texture* objTexture;
+    SDL_Rect srcRect, destRect;
+    SDL_Renderer* renderer;
 };
 
 #endif // OBJECT_H

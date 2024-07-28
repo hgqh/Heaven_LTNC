@@ -1,6 +1,14 @@
 #include "menu.h"
-#include <iostream>
+#include "SDL_image.h"
 
-void Menu::display() {
-    std::cout << "Displaying menu" << std::endl;
+Menu::Menu() {
+    
+}
+
+Menu::~Menu() {
+   
+}
+
+void Menu::render(SDL_Renderer* renderer) {
+    
 }
