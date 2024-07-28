@@ -1,26 +1,25 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include "object.h"
+#include "SDL.h"
 
-class Ball : public Object {
+class Ball {
 public:
-    int dx, dy;
-    void move();
-    void draw() override;
-};
+    Ball(const char* textureSheet, SDL_Renderer* ren, int x, int y);
+    ~Ball();
 
-#endif // BALL_H
-#ifndef BALL_H
-#define BALL_H
+    void update();
+    void render();
 
-#include "object.h"
+private:
+    int xpos;
+    int ypos;
+    int xvel;
+    int yvel;
 
-class Ball : public Object {
-public:
-    int dx, dy;
-    void move();
-    void draw(SDL_Renderer* renderer) override;
+    SDL_Texture* ballTexture;
+    SDL_Rect srcRect, destRect;
+    SDL_Renderer* renderer;
 };
 
 #endif // BALL_H

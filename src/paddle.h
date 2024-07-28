@@ -1,14 +1,25 @@
 #ifndef PADDLE_H
 #define PADDLE_H
 
-#include "object.h"
+#include "SDL.h"
 
-class Paddle : public Object {
+class Paddle {
 public:
-    int width, height;
-    void moveUp();
-    void moveDown();
-    void draw(SDL_Renderer* renderer) override;
+    Paddle(const char* textureSheet, SDL_Renderer* ren, int x, int y);
+    ~Paddle();
+
+    void handleEvents();
+    void update();
+    void render();
+
+private:
+    int xpos;
+    int ypos;
+    int yvel;
+
+    SDL_Texture* paddleTexture;
+    SDL_Rect srcRect, destRect;
+    SDL_Renderer* renderer;
 };
 
 #endif // PADDLE_H

@@ -1,13 +1,35 @@
 #include "ball.h"
-#include <SDL2/SDL.h>
+#include "SDL_image.h"
 
-void Ball::move() {
-    x += dx;
-    y += dy;
-    rect = { x, y, 20, 20 }; // Kích thước của bóng
+Ball::Ball(const char* textureSheet, SDL_Renderer* ren, int x, int y)
+    : xpos(x), ypos(y), xvel(5), yvel(5) {
+    renderer = ren;
+    ballTexture = IMG_LoadTexture(renderer, textureSheet);
+
+    srcRect = {0, 0, 32, 32}; 
+    destRect = {xpos, ypos, 32, 32};
 }
 
-void Ball::draw(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Màu xanh dương
-    SDL_RenderFillRect(renderer, &rect);
+Ball::~Ball() {
+    SDL_DestroyTexture(ballTexture);
+}
+
+void Ball::update() {
+    xpos += xvel;
+    ypos += yvel;
+
+    // Phản xạ khi chạm tường
+    if (xpos <= 0 || xpos + destRect.w >= 800) { 
+        xvel = -xvel;
+    }
+    if (ypos <= 0 || ypos + destRect.h >= 600) { 
+        yvel = -yvel;
+    }
+
+    destRect.x = xpos;
+    destRect.y = ypos;
+}
+
+void Ball::render() {
+    SDL_RenderCopy(renderer, ballTexture, nullptr, &destRect);
 }
