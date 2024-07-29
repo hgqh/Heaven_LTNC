@@ -1,7 +1,7 @@
 #include "game.h"
 #include <iostream>
 
-Game::Game() : running(false), window(nullptr), renderer(nullptr) {}
+Game::Game() : running(false), window(nullptr), renderer(nullptr), ball(nullptr), playerPaddle(nullptr), aiPaddle(nullptr) {}
 
 Game::~Game() {}
 
@@ -25,6 +25,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
             std::cout << "Renderer created!" << std::endl;
         }
 
+        ball = new Ball("assets/ball.png", renderer, width / 2 - 16, height / 2 - 16);
+        playerPaddle = new Paddle("assets/paddle.png", renderer, 50, height / 2 - 64);
+        aiPaddle = new Paddle("assets/paddle.png", renderer, width - 82, height / 2 - 64);
+
         running = true;
     } else {
         running = false;
@@ -42,21 +46,30 @@ void Game::handleEvents() {
                 break;
         }
     }
+
+    playerPaddle->handleEvents();
 }
 
 void Game::update() {
-    
+    ball->update();
+    playerPaddle->update();
+    aiPaddle->update();
 }
 
 void Game::render() {
     SDL_RenderClear(renderer);
-   
+    ball->render();
+    playerPaddle->render();
+    aiPaddle->render();
     SDL_RenderPresent(renderer);
 }
 
 void Game::clean() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    delete ball;
+    delete playerPaddle;
+    delete aiPaddle;
     SDL_Quit();
     std::cout << "Game cleaned!" << std::endl;
 }

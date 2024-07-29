@@ -2,9 +2,8 @@
 #define GAME_H
 
 #include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
+#include "ball.h"
+#include "paddle.h"
 
 class Game {
 public:
@@ -22,6 +21,10 @@ private:
     bool running;
     SDL_Window* window;
     SDL_Renderer* renderer;
+
+    Ball* ball;
+    Paddle* playerPaddle;
+    Paddle* aiPaddle;
 };
 
 #endif // GAME_H

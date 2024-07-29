@@ -1,11 +1,10 @@
-
 CXX = g++
 INCLUDE_PATH = .
 SDL2_INCLUDE_PATH = /usr/local/include/SDL2
 LIB_PATH = /usr/local/lib
 BIN_PATH = binanddll
 TARGET = $(BIN_PATH)/main
-SRCS = main.cpp game.cpp
+SRCS = main.cpp game.cpp object.cpp menu.cpp ball.cpp paddle.cpp
 
 CXXFLAGS = -I$(INCLUDE_PATH) -I$(SDL2_INCLUDE_PATH) -std=c++11 -Wall
 
