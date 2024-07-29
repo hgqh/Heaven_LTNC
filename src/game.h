@@ -2,8 +2,8 @@
 #define GAME_H
 
 #include "SDL.h"
-#include "ball.h"
-#include "paddle.h"
+#include <iostream>
+#include <string>
 
 class Game {
 public:
@@ -15,16 +15,25 @@ public:
     void update();
     void render();
     void clean();
-    bool isRunning() { return running; }
+
+    bool running() { return isRunning; }
 
 private:
-    bool running;
+    bool isRunning;
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    Ball* ball;
-    Paddle* playerPaddle;
-    Paddle* aiPaddle;
+    SDL_Texture* loadTexture(const char* filePath);
+    void write(const std::string& text, int x, int y, int r, int g, int b, int size);
+
+    SDL_Rect ball, l_paddle, r_paddle;
+    int l_s, r_s;
+    int vX, vY;
+    int turn;
+
+    void serve();
+    void variable();
+    void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
 };
 
-#endif // GAME_H
+#endif
