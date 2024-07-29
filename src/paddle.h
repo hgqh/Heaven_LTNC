@@ -5,21 +5,16 @@
 
 class Paddle {
 public:
-    Paddle(const char* textureSheet, SDL_Renderer* ren, int x, int y);
-    ~Paddle();
-
-    void handleEvents();
+    Paddle(int x, int y, int w, int h);
+    void handleEvents(const Uint8* keystates);
     void update();
-    void render();
+    void render(SDL_Renderer* renderer);
+
+    SDL_Rect getRect() const;
 
 private:
-    int xpos;
-    int ypos;
-    int yvel;
-
-    SDL_Texture* paddleTexture;
-    SDL_Rect srcRect, destRect;
-    SDL_Renderer* renderer;
+    SDL_Rect rect;
+    int speed;
 };
 
-#endif // PADDLE_H
+#endif

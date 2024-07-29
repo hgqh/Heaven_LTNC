@@ -5,21 +5,16 @@
 
 class Ball {
 public:
-    Ball(const char* textureSheet, SDL_Renderer* ren, int x, int y);
-    ~Ball();
-
+    Ball(int x, int y, int w, int h, int vX, int vY);
     void update();
-    void render();
+    void render(SDL_Renderer* renderer);
+
+    SDL_Rect getRect() const;
 
 private:
-    int xpos;
-    int ypos;
-    int xvel;
-    int yvel;
-
-    SDL_Texture* ballTexture;
-    SDL_Rect srcRect, destRect;
-    SDL_Renderer* renderer;
+    SDL_Rect rect;
+    int velocityX;
+    int velocityY;
 };
 
-#endif // BALL_H
+#endif

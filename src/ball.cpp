@@ -1,35 +1,28 @@
 #include "ball.h"
-#include "SDL_image.h"
 
-Ball::Ball(const char* textureSheet, SDL_Renderer* ren, int x, int y)
-    : xpos(x), ypos(y), xvel(5), yvel(5) {
-    renderer = ren;
-    ballTexture = IMG_LoadTexture(renderer, textureSheet);
-
-    srcRect = {0, 0, 32, 32}; 
-    destRect = {xpos, ypos, 32, 32};
-}
-
-Ball::~Ball() {
-    SDL_DestroyTexture(ballTexture);
+Ball::Ball(int x, int y, int w, int h, int vX, int vY) {
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+    velocityX = vX;
+    velocityY = vY;
 }
 
 void Ball::update() {
-    xpos += xvel;
-    ypos += yvel;
+    rect.x += velocityX;
+    rect.y += velocityY;
 
-    // Phản xạ khi chạm tường
-    if (xpos <= 0 || xpos + destRect.w >= 800) { 
-        xvel = -xvel;
+    if (rect.y <= 0 || rect.y + rect.h >= 480) {
+        velocityY = -velocityY;
     }
-    if (ypos <= 0 || ypos + destRect.h >= 600) { 
-        yvel = -yvel;
-    }
-
-    destRect.x = xpos;
-    destRect.y = ypos;
 }
 
-void Ball::render() {
-    SDL_RenderCopy(renderer, ballTexture, nullptr, &destRect);
+void Ball::render(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+SDL_Rect Ball::getRect() const {
+    return rect;
 }

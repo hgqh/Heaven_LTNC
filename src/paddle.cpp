@@ -1,44 +1,43 @@
 #include "paddle.h"
-#include "SDL_image.h"
 
-Paddle::Paddle(const char* textureSheet, SDL_Renderer* ren, int x, int y)
-    : xpos(x), ypos(y), yvel(0) {
-    renderer = ren;
-    paddleTexture = IMG_LoadTexture(renderer, textureSheet);
-
-    srcRect = {0, 0, 32, 128}; // Giả sử kích thước ảnh là 32x128
-    destRect = {xpos, ypos, 32, 128};
+Paddle::Paddle(int x, int y, int w, int h) {
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+    speed = 5;
 }
 
-Paddle::~Paddle() {
-    SDL_DestroyTexture(paddleTexture);
-}
-
-void Paddle::handleEvents() {
-    const Uint8* keystate = SDL_GetKeyboardState(nullptr);
-    if (keystate[SDL_SCANCODE_UP]) {
-        yvel = -5;
-    } else if (keystate[SDL_SCANCODE_DOWN]) {
-        yvel = 5;
-    } else {
-        yvel = 0;
+void Paddle::handleEvents(const Uint8* keystates) {
+    if (keystates[SDL_SCANCODE_W]) {
+        rect.y -= speed;
+    }
+    if (keystates[SDL_SCANCODE_S]) {
+        rect.y += speed;
+    }
+    if (keystates[SDL_SCANCODE_UP]) {
+        rect.y -= speed;
+    }
+    if (keystates[SDL_SCANCODE_DOWN]) {
+        rect.y += speed;
     }
 }
 
 void Paddle::update() {
-    ypos += yvel;
-
-    
-    if (ypos < 0) {
-        ypos = 0;
+    // Giới hạn paddle trong cửa sổ
+    if (rect.y < 0) {
+        rect.y = 0;
     }
-    if (ypos + destRect.h > 600) { 
-        ypos = 600 - destRect.h;
+    if (rect.y + rect.h > 480) {
+        rect.y = 480 - rect.h;
     }
-
-    destRect.y = ypos;
 }
 
-void Paddle::render() {
-    SDL_RenderCopy(renderer, paddleTexture, nullptr, &destRect);
+void Paddle::render(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+SDL_Rect Paddle::getRect() const {
+    return rect;
 }
