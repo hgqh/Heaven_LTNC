@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 #include <iostream>
 #include <string>
 
@@ -26,6 +27,9 @@ private:
 
     Mix_Music* gnhacnen;
     Mix_Chunk* gHigh;
+    TTF_Font* font;            // Khai báo font
+    SDL_Color color;           // Khai báo color
+    SDL_Rect score_board;      // Khai báo score_board
 
     SDL_Texture* loadTexture(const char* filePath);
     void write(const std::string& text, int x, int y, int r, int g, int b, int size);

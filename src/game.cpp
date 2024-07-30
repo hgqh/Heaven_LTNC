@@ -1,6 +1,5 @@
 #include "game.h"
-#include "SDL_image.h"  // Bao gồm thư viện SDL_image
-#include "SDL_ttf.h"
+#include "SDL_image.h"
 #include <iostream>
 
 Game::Game() : isRunning(false), window(nullptr), renderer(nullptr), gnhacnen(nullptr), gHigh(nullptr), font(nullptr) {}
@@ -39,7 +38,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
             std::cout << "Renderer created!" << std::endl;
         }
 
-        // Khởi tạo SDL_image
         int imgFlags = IMG_INIT_PNG;
         if (!(IMG_Init(imgFlags) & imgFlags)) {
             std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
@@ -162,8 +160,8 @@ SDL_Texture* Game::loadTexture(const char* filePath) {
 void Game::write(const std::string& text, int x, int y, int r, int g, int b, int size) {
     SDL_Surface *surface;
     SDL_Texture *texture;
-    TTF_Font *font = TTF_OpenFont("media/Peepo.ttf", size);
-    if (font == nullptr) {
+    TTF_Font *tempFont = TTF_OpenFont("media/Peepo.ttf", size);
+    if (tempFont == nullptr) {
         std::cout << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << std::endl;
         return;
     }
@@ -172,7 +170,7 @@ void Game::write(const std::string& text, int x, int y, int r, int g, int b, int
     color.g = g;
     color.b = b;
     color.a = 255;
-    surface = TTF_RenderText_Solid(font, t, color);
+    surface = TTF_RenderText_Solid(tempFont, t, color);
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     score_board.w = surface->w;
     score_board.h = surface->h;
@@ -181,7 +179,7 @@ void Game::write(const std::string& text, int x, int y, int r, int g, int b, int
     SDL_FreeSurface(surface);
     SDL_RenderCopy(renderer, texture, NULL, &score_board);
     SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);
+    TTF_CloseFont(tempFont);
 }
 
 void Game::draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest) {
