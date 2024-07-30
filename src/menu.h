@@ -8,10 +8,21 @@ public:
     Menu();
     ~Menu();
 
-    void render(SDL_Renderer* renderer);
+    void init(SDL_Renderer* renderer);
+    void handleEvents();
+    void render();
+    void clean();
+
+    bool isRunning() { return running; }
 
 private:
-    SDL_Texture* menuTexture;
+    bool running;
+    SDL_Renderer* renderer;
+    SDL_Texture* backgroundTexture;
+    SDL_Rect backgroundRect;
+
+    SDL_Texture* loadTexture(const char* filePath);
+    void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
 };
 
-#endif // MENU_H
+#endif
