@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() : isRunning(false), window(nullptr), renderer(nullptr) {}
+Game::Game() : isRunning(false), window(nullptr), renderer(nullptr), gnhacnen(nullptr), gHigh(nullptr) {}
 
 Game::~Game() {}
 
@@ -24,6 +24,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
             std::cout << "Renderer created!" << std::endl;
         }
 
+        Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+        loadMedia();
+
         variable();
         serve();
 
@@ -33,27 +37,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     }
 }
 
-void Game::variable() {
-    l_s = r_s = 0;
-    l_paddle.x = 32; l_paddle.h = 480 / 5;
-    l_paddle.y = (480 / 2) - (l_paddle.h / 2);
-    l_paddle.w = 12;
-    r_paddle = l_paddle;
-    r_paddle.x = 640 - r_paddle.w - 32;
-    ball.w = ball.h = 16;
+void Game::loadMedia() {
+    loadSounds();
 }
 
-void Game::serve() {
-    if (turn) {
-        ball.x = l_paddle.x + (l_paddle.w * 4);
-        vX = 4 / 2;
-    } else {
-        ball.x = r_paddle.x - (r_paddle.w * 4);
-        vX = -4 / 2;
+void Game::loadSounds() {
+    gnhacnen = Mix_LoadMUS("media/nhacnen.mp3");
+    gHigh = Mix_LoadWAV("media/low.wav");
+
+    if (Mix_PlayingMusic() == 0) {
+        Mix_PlayMusic(gnhacnen, -1);
     }
-    vY = 0;
-    ball.y = 480 / 2 - 16 / 2;
-    turn = !turn;
 }
 
 void Game::handleEvents() {
@@ -89,10 +83,12 @@ void Game::update() {
 
     if (SDL_HasIntersection(&ball, &r_paddle)) {
         vX = -vX;
+        Mix_PlayChannel(-1, gHigh, 0);
     }
 
     if (SDL_HasIntersection(&ball, &l_paddle)) {
         vX = -vX;
+        Mix_PlayChannel(-1, gHigh, 0);
     }
 }
 
@@ -110,6 +106,11 @@ void Game::render() {
 }
 
 void Game::clean() {
+    Mix_FreeChunk(gHigh);
+    gHigh = nullptr;
+    Mix_FreeMusic(gnhacnen);
+    gnhacnen = nullptr;
+    Mix_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -129,7 +130,7 @@ SDL_Texture* Game::loadTexture(const char* filePath) {
 }
 
 void Game::write(const std::string& text, int x, int y, int r, int g, int b, int size) {
-    
+    // Placeholder function for writing text
 }
 
 void Game::draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest) {

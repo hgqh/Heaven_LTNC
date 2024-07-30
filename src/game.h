@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "SDL.h"
+#include "SDL_mixer.h"
 #include <iostream>
 #include <string>
 
@@ -23,8 +24,14 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
 
+    Mix_Music* gnhacnen;
+    Mix_Chunk* gHigh;
+
     SDL_Texture* loadTexture(const char* filePath);
     void write(const std::string& text, int x, int y, int r, int g, int b, int size);
+    void loadMedia();
+    void loadSounds();
+    void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
 
     SDL_Rect ball, l_paddle, r_paddle;
     int l_s, r_s;
@@ -33,7 +40,6 @@ private:
 
     void serve();
     void variable();
-    void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
 };
 
 #endif
