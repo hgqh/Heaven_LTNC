@@ -43,6 +43,7 @@ private:
     void loadMedia();
     void loadSounds();
     void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
+    void drawCircle(SDL_Renderer* renderer, int32_t centreX, int32_t centreY, int32_t radius);
 
     void serve();
     void variable();
