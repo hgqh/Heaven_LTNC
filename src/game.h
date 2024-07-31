@@ -27,20 +27,22 @@ private:
 
     Mix_Music* gnhacnen;
     Mix_Chunk* gHigh;
-    TTF_Font* font;            // Khai báo font
-    SDL_Color color;           // Khai báo color
-    SDL_Rect score_board;      // Khai báo score_board
+    TTF_Font* font;
+    SDL_Color color;
+    SDL_Rect score_board;
+
+    SDL_Rect ball, l_paddle, r_paddle;
+    int l_s, r_s;
+    int vX, vY;
+    int turn;
+
+    SDL_Texture* backgroundTexture;
 
     SDL_Texture* loadTexture(const char* filePath);
     void write(const std::string& text, int x, int y, int r, int g, int b, int size);
     void loadMedia();
     void loadSounds();
     void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
-
-    SDL_Rect ball, l_paddle, r_paddle;
-    int l_s, r_s;
-    int vX, vY;
-    int turn;
 
     void serve();
     void variable();
