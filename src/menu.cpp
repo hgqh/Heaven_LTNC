@@ -7,7 +7,7 @@ Menu::~Menu() {}
 
 void Menu::init(SDL_Renderer* renderer) {
     this->renderer = renderer;
-    backgroundTexture = loadTexture("media/menu_background.png");
+    backgroundTexture = loadTexture("media/menu_background.bmp");
     if (backgroundTexture == nullptr) {
         std::cout << "Failed to load background texture!" << std::endl;
     }

@@ -13,7 +13,7 @@ public:
     void render();
     void clean();
 
-    bool isRunning() { return running; }
+    bool isRunning() const { return running; }
 
 private:
     bool running;
