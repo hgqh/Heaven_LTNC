@@ -34,7 +34,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
         renderer = SDL_CreateRenderer(window, -1, 0);
         if (renderer) {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Nền đen
             std::cout << "Renderer created!" << std::endl;
         }
 
@@ -108,12 +108,12 @@ void Game::update() {
     }
 
     if (SDL_HasIntersection(&ball, &r_paddle)) {
-        vX = -vX;
+        vX = -vX * 0.8; // Bóng bật lại với tốc độ chậm hơn
         Mix_PlayChannel(-1, gHigh, 0);
     }
 
     if (SDL_HasIntersection(&ball, &l_paddle)) {
-        vX = -vX;
+        vX = -vX * 0.8; // Bóng bật lại với tốc độ chậm hơn
         Mix_PlayChannel(-1, gHigh, 0);
     }
 }
@@ -130,7 +130,7 @@ void Game::render() {
     SDL_RenderFillRect(renderer, &r_paddle);
 
     // Vẽ bóng hình tròn
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 255, 165, 0, 255); // Bóng màu cam
     drawCircle(renderer, ball.x + ball.w / 2, ball.y + ball.h / 2, ball.w / 2);
 
     SDL_RenderPresent(renderer);
