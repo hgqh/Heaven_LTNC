@@ -3,21 +3,43 @@
 
 #include "SDL.h"
 
+class Ball {
+public:
+    Ball();
+    ~Ball();
+
+    void update();
+    void render();
+
+private:
+    SDL_Rect ballRect;
+    SDL_Texture* texture;
+};
+
+class Paddle {
+public:
+    Paddle();
+    ~Paddle();
+
+    void update();
+    void render();
+
+private:
+    SDL_Rect paddleRect;
+    SDL_Texture* texture;
+};
+
 class Object {
 public:
-    Object(const char* textureSheet, SDL_Renderer* ren, int x, int y);
+    Object();
     ~Object();
 
     void update();
     void render();
 
 private:
-    int xpos;
-    int ypos;
-
-    SDL_Texture* objTexture;
-    SDL_Rect srcRect, destRect;
-    SDL_Renderer* renderer;
+    SDL_Rect objectRect;
+    SDL_Texture* texture;
 };
 
 #endif // OBJECT_H
