@@ -1,5 +1,6 @@
 #include "bits/stdc++.h"
 #include "game.h"
+#include "constants.h" 
 
 Game::Game() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) std::cout << "Failed at SDL_Init()" << std::endl;
