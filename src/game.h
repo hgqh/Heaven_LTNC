@@ -1,52 +1,50 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
-#include <iostream>
-#include <string>
+#include "object.h"
+#include "menu.h"
 
 class Game {
 public:
     Game();
     ~Game();
-
-    void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
-    void handleEvents();
-    void update();
-    void render();
-    void clean();
-
-    bool running() { return isRunning; }
-
-private:
-    bool isRunning;
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-
-    Mix_Music* gnhacnen;
-    Mix_Chunk* gHigh;
-    TTF_Font* font;
     SDL_Color color;
+
+    bool running;
+
+    SDL_Rect l_paddle, r_paddle, ball, tuong, tuong1;
     SDL_Rect score_board;
 
-    SDL_Rect ball, l_paddle, r_paddle;
+    int frameCount, timerFPS, lastFrame, fps;
+    Object bgr, bgrMenu, bgr2, wall, wall1, m_ball, m_ball2, play, over, win, play1, play2;
+    double vX, vY;
+    std::string score, level1, level2, score1, mode1, mode2, score2, score3;
+    int lastTime = 0;
     int l_s, r_s;
-    int vX, vY;
-    int turn;
+    bool turn;
+    Mix_Music* gnhacnen = NULL;
+    Mix_Chunk* gHigh = NULL;
+    int easy, mode, start, restart, run;
+    int count = 0, count1 = 0;
 
-    SDL_Texture* backgroundTexture;
-
-    SDL_Texture* loadTexture(const char* filePath);
-    void write(const std::string& text, int x, int y, int r, int g, int b, int size);
-    void loadMedia();
-    void loadSounds();
-    void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
-    void drawCircle(SDL_Renderer* renderer, int32_t centreX, int32_t centreY, int32_t radius);
-
-    void serve();
     void variable();
+    void serve();
+    void draw(Object o);
+    void DRAW(const char* msg, int x, int y, int r, int g, int b, int size);
+    void inputMenu();
+    void renderMenu();
+    void runMenu();
+    void update();
+    void inputgame();
+    void write(std::string text, int x, int y, int r, int g, int b, int size);
+    void rendergame();
+    void rungame();
+    void runback();
+
+private:
+    SDL_Renderer* renderer;
+    SDL_Window* window;
+    TTF_Font* font;
 };
 
 #endif
