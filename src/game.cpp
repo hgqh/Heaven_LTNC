@@ -1,66 +1,66 @@
 #include "bits/stdc++.h"
 #include "game.h"
-#include "constants.h" 
+#include "constants.h"
 
-Game::Game() {
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) std::cout << "Failed at SDL_Init()" << std::endl;
-    if (SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0) std::cout << "Failed at SDL_CreateWindowAndRenderer())" << std::endl;
+Game::Game(){
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0) cout << "Failed at SDL_Init()" << endl;
+    if(SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0) cout << "Failed at SDL_CreateWindowAndRenderer())" << endl;
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
-    gnhacnen = Mix_LoadMUS("media/nhacnen.mp3");
-    gHigh = Mix_LoadWAV("media/low.wav");
-    if (Mix_PlayingMusic() == 0) Mix_PlayMusic(gnhacnen, -1);
+   
+    gnhacnen = Mix_LoadMUS("assets/nhacnen.mp3");
+    gHigh =Mix_LoadWAV("assets/low.wav");
+    if(Mix_PlayingMusic() == 0) Mix_PlayMusic(gnhacnen, -1);
     else {
-        if (Mix_PausedMusic() == 1) Mix_ResumeMusic();
+        if(Mix_PausedMusic() == 1) Mix_ResumeMusic();
         else Mix_PauseMusic();
     }
     TTF_Init();
-
-    font = TTF_OpenFont("media/Peepo.ttf", FONT_SIZE);
+   
+    font = TTF_OpenFont("assets/Peepo.ttf", FONT_SIZE);
     bgrMenu.setDest(0, 0, 1000, 600);
     bgrMenu.setSource(0, 0, 2000, 1200);
-    bgrMenu.setImage("media/bgr.jpg", renderer);
+    bgrMenu.setImage("assets/bgr.jpg", renderer);
     bgr.setDest(0, 0, 1000, 600);
     bgr.setSource(0, 0, 2000, 1200);
-    bgr.setImage("media/bgr.bmp", renderer);
+    bgr.setImage("assets/bgr.bmp", renderer);
     bgr2.setDest(0, 0, 1000, 600);
     bgr2.setSource(0, 0, 2000, 1200);
-    bgr2.setImage("media/bgr2.jpg", renderer);
+    bgr2.setImage("assets/bgr2.jpg", renderer);
     wall.setDest(300, 400, 160, 110);
     wall.setSource(0, 0, 1000, 1200);
-    wall.setImage("media/tieuhanhtinh.png", renderer);
+    wall.setImage("assets/tieuhanhtinh.png", renderer);
     wall1.setDest(550, 150, 150, 100);
     wall1.setSource(0, 0, 1000, 1200);
-    wall1.setImage("media/tieuhanhtinh2.png", renderer);
+    wall1.setImage("assets/tieuhanhtinh2.png", renderer);
     play.setDest(700, 300, 220, 180);
     play.setSource(0, 0, 2000, 1200);
-    play.setImage("media/play.png", renderer);
+    play.setImage("assets/play.png", renderer);
     m_ball.setDest(390, 220, 23, 23);
     m_ball.setSource(0, 0, 1000, 1200);
-    m_ball.setImage("media/ball.png", renderer);
+    m_ball.setImage("assets/ball.png", renderer);
     m_ball2.setDest(390, 220, 23, 23);
     m_ball2.setSource(0, 0, 1000, 1200);
-    m_ball2.setImage("media/thienthach.png", renderer);
+    m_ball2.setImage("assets/thienthach.png", renderer);
     over.setDest(0, 0, 1000, 600);
     over.setSource(0, 0, 1000, 1200);
-    over.setImage("media/gameover.jpg", renderer);
+    over.setImage("assets/gameover.jpg", renderer);
     win.setDest(0, 0, 1000, 600);
     win.setSource(0, 0, 1000, 1200);
-    win.setImage("media/youwin.jpg", renderer);
+    win.setImage("assets/youwin.jpg", renderer);
     play1.setDest(0, 0, 1000, 600);
     play1.setSource(0, 0, 1000, 1200);
-    play1.setImage("media/play1.jpg", renderer);
+    play1.setImage("assets/play1.jpg", renderer);
     play2.setDest(0, 0, 1000, 600);
     play2.setSource(0, 0, 1000, 1200);
-    play2.setImage("media/player2.jpg", renderer);
+    play2.setImage("assets/player2.jpg", renderer);
     level1 = " ", level2 = " ", mode1 = " ", mode2 = " ";
     score1 = "  LEVEL  ";
     score2 = "  MODE ";
     score3 = "  PLAY ";
 }
 
-Game::~Game() {
+Game::~Game(){
     Mix_FreeChunk(gHigh);
     gHigh = NULL;
     Mix_FreeMusic(gnhacnen);
@@ -72,7 +72,7 @@ Game::~Game() {
     SDL_Quit();
 }
 
-void Game::variable() {
+void Game::variable(){
     l_s = r_s = 0;
     l_paddle.x = 32; l_paddle.h = HEIGHT / 5;
     l_paddle.y = (HEIGHT / 2) - (l_paddle.h / 2);
@@ -86,13 +86,13 @@ void Game::variable() {
     ball.w = ball.h = SIZE;
 }
 
-void Game::serve() {
+void Game::serve(){
     if (turn) {
         ball.x = l_paddle.x + (l_paddle.w * 4);
         vX = BALL_SPEED / 2;
     } else {
         ball.x = r_paddle.x - (r_paddle.w * 4);
-        vX = -BALL_SPEED / 2;
+        vX = -BALL_SPEED / 2; 
     }
     vY = 0;
     ball.y = HEIGHT / 2 - SIZE / 2;
@@ -101,78 +101,79 @@ void Game::serve() {
     turn = !turn;
 }
 
-void Game::renderMenu() {
+void Game::renderMenu(){
     SDL_RenderClear(renderer);
     draw(bgrMenu);
-    if ((count == 1 && count1 == 1) || (count == 1 && count1 == 2) || (count == 2 && count1 == 1) || (count == 2 && count1 == 2)) draw(play);
+    if ((count == 1 && count1 == 1) || (count == 1 && count1 == 2) || (count == 2 && count1 == 1) || (count == 2 && count1 == 2))
+        draw(play);
     
-    if (count == 0 || count1 == 0) {
+    if (count == 0 || count1 == 0){
         write(level1, WIDTH / 2 - 215, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
         write(level2, WIDTH / 2 - 215, FONT_SIZE * 6 + 100, 0, 0, 0, FONT_SIZE);
         write(mode1, WIDTH / 2 + 100, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
         write(mode2, WIDTH / 2 + 100, FONT_SIZE * 6 + 100, 0, 0, 0, FONT_SIZE);
     }
-    if (count == 1) {
+    if (count == 1){
         write(level1, WIDTH / 2 - 215, FONT_SIZE * 6 - 100, 255, 0, 0, FONT_SIZE);
         write(level2, WIDTH / 2 - 215, FONT_SIZE * 6 + 100, 0, 0, 0, FONT_SIZE);
     }
-    if (count == 2) {
+    if (count == 2){
         write(level1, WIDTH / 2 - 215, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
         write(level2, WIDTH / 2 - 215, FONT_SIZE * 6 + 100, 255, 0, 0, FONT_SIZE);
     }
-    if (count1 == 1) {
+    if (count1 == 1){
         write(mode1, WIDTH / 2 + 100, FONT_SIZE * 6 - 100, 255, 0, 0, FONT_SIZE);
         write(mode2, WIDTH / 2 + 100, FONT_SIZE * 6 + 100, 0, 0, 0, FONT_SIZE);
     }
-    if (count1 == 2) {
+    if (count1 == 2){
         write(mode1, WIDTH / 2 + 100, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
         write(mode2, WIDTH / 2 + 100, FONT_SIZE * 6 + 100, 255, 0, 0, FONT_SIZE);
     }
-    if (count == 0 || count == 1 || count == 2 || count1 == 1 || count1 == 2) {
+    if (count == 0 || count == 1 || count == 2 || count1 == 1 || count1 == 2){
         write(score1, WIDTH / 2 - 215, FONT_SIZE * 6, 0, 0, 0, FONT_SIZE);
         write(score2, WIDTH / 2 + 100, FONT_SIZE * 6, 0, 0, 0, FONT_SIZE);
         SDL_RenderPresent(renderer);
-    }
+    }  
 }
 
-void Game::inputMenu() {
-    std::stringstream ss;
+void Game::inputMenu(){
+    stringstream ss;
     ss << "SPECIAL PONG";
     SDL_SetWindowTitle(window, ss.str().c_str());
     SDL_Event e;
-    const Uint8* keystates = SDL_GetKeyboardState(NULL);
-    while (SDL_PollEvent(&e)) {
+    const Uint8 *keystates = SDL_GetKeyboardState(NULL);
+    while (SDL_PollEvent(&e)){
         if (e.type == SDL_QUIT) running = 0, run = 1;
-        if (e.type == SDL_MOUSEBUTTONDOWN) {
+        if (e.type == SDL_MOUSEBUTTONDOWN){
             int mouseX = e.motion.x;
             int mouseY = e.motion.y;
 
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 80 && mouseX <= 270 && mouseY >= 270 && mouseY <= 330) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 80 && mouseX <= 270 && mouseY >= 270 && mouseY <= 330){
                 level1 = " EASY  ";
                 level2 = " HARD  ";
                 score1 = " ";
             }
 
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 110 && mouseX <= 270 && mouseY >= 170 && mouseY <= 225) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 110 && mouseX <= 270 && mouseY >= 170 && mouseY <= 225){
                 easy = 1;
                 count = 1;
             }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 101 && mouseX <= 273 && mouseY >= 371 && mouseY <= 425) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 101 && mouseX <= 273 && mouseY >= 371 && mouseY <= 425){
                 easy = 2;
                 count = 2;
             }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 450 && mouseX <= 580 && mouseY >= 275 && mouseY <= 330) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 450 && mouseX <= 580 && mouseY >= 275 && mouseY <= 330){
                 mode1 = " 1 PLAYER";
                 mode2 = " 2 PLAYER";
                 score2 = " ";
             }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 375 && mouseX <= 600 && mouseY >= 170 && mouseY <= 225) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 375 && mouseX <= 600 && mouseY >= 170 && mouseY <= 225){
                 mode = 1, count1 = 1;
             }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 365 && mouseX <= 600 && mouseY >= 371 && mouseY <= 425) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 365 && mouseX <= 600 && mouseY >= 371 && mouseY <= 425){
                 mode = 2, count1 = 2;
             }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 700 && mouseX <= 920 && mouseY >= 352 && mouseY <= 441) {
+            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 700 && mouseX <= 920 && mouseY >= 352 && mouseY <= 441){
                 start = 1;
             }
         }
@@ -181,17 +182,16 @@ void Game::inputMenu() {
     }
 }
 
-void Game::runMenu() {
+void Game::runMenu(){
     running = 1;
-    while (running) {
+    while (running){
         inputMenu();
         renderMenu();
     }
 }
 
-void Game::update() {
-    score = "   SCORE :    " + std::to_string(l_s) + "              " + std::to_string(r_s) + "        (/5)";
-    
+void Game::update(){
+    score = "   SCORE :    " + to_string(l_s) + "              " + to_string(r_s) + "        (/5)"; 
     if (SDL_HasIntersection(&ball, &r_paddle)) {
         Mix_PlayChannel(-1, gHigh, 0);
         double kc = (r_paddle.y + (r_paddle.h / 2)) - (ball.y + (SIZE / 2));
@@ -208,8 +208,8 @@ void Game::update() {
         vX = BALL_SPEED * cos(bounce);
         vY = BALL_SPEED * -sin(bounce);
     }
-    if (easy == 2) {
-        if (SDL_HasIntersection(&tuong, &ball) || SDL_HasIntersection(&tuong1, &ball)) {
+    if (easy == 2){
+        if (SDL_HasIntersection(&tuong, &ball) || SDL_HasIntersection(&tuong1, &ball)){
             Mix_PlayChannel(-1, gHigh, 0);
 
             double kc = (l_paddle.y + (l_paddle.h / 2)) - (ball.y + (SIZE / 2));
@@ -219,12 +219,11 @@ void Game::update() {
             vY = BALL_SPEED * -sin(bounce);
         }
     }
-    if ((easy == 1 && mode == 1) || (easy == 2 && mode == 1)) {
+    if ((easy == 1 && mode == 1) || (easy == 2 && mode == 1)){
         if (ball.y > r_paddle.y + r_paddle.h / 2) r_paddle.y += SPEED - 2;
         if (ball.y < r_paddle.y + r_paddle.h / 2) r_paddle.y -= SPEED - 2;
     }
     if (ball.y <= 0 || ball.y + SIZE >= HEIGHT) vY = -vY;
-
     if (ball.x <= 0) {
         r_s++;
         serve();
@@ -243,19 +242,19 @@ void Game::update() {
     m_ball2.setDest(ball.x - 8, ball.y - 4, 23, 23);
 }
 
-void Game::inputgame() {
+void Game::inputgame(){
     SDL_Event e;
-    const Uint8* keystates = SDL_GetKeyboardState(NULL);
-    while (SDL_PollEvent(&e)) {
+    const Uint8 *keystates = SDL_GetKeyboardState(NULL);
+    while (SDL_PollEvent(&e)){
         if (e.type == SDL_QUIT) running = 0;
     }
-
-    if ((easy == 1 && mode == 1) || (easy == 2 && mode == 1)) {
+  
+    if ((easy == 1 && mode == 1) || (easy == 2 && mode == 1)){
         if (keystates[SDL_SCANCODE_ESCAPE]) running = 0;
         if (keystates[SDL_SCANCODE_UP]) l_paddle.y -= SPEED + 5;
         if (keystates[SDL_SCANCODE_DOWN]) l_paddle.y += SPEED + 5;
     }
-    if ((easy == 1 && mode == 2) || (easy == 2 && mode == 2)) {
+    if ((easy == 1 && mode == 2) || (easy == 2 && mode == 2)){
         if (keystates[SDL_SCANCODE_ESCAPE]) running = 0;
         if (keystates[SDL_SCANCODE_W]) l_paddle.y -= SPEED + 5;
         if (keystates[SDL_SCANCODE_S]) l_paddle.y += SPEED + 5;
@@ -264,17 +263,17 @@ void Game::inputgame() {
     }
 }
 
-void Game::draw(Object o) {
+void Game::draw(Object o){
     SDL_Rect dest = o.getDest();
     SDL_Rect src = o.getSource();
     SDL_RenderCopyEx(renderer, o.getTex(), &src, &dest, 0, NULL, SDL_FLIP_NONE);
 }
 
-void Game::write(std::string text, int x, int y, int r, int g, int b, int size) {
-    SDL_Surface* surface;
-    SDL_Texture* texture;
-    TTF_OpenFont("media/Peepo.ttf", size);
-    const char* t = text.c_str();
+void Game::write(string text, int x, int y, int r, int g, int b, int size){
+    SDL_Surface *surface;
+    SDL_Texture *texture;
+    TTF_OpenFont("assets/Peepo.ttf", size);
+    const char *t = text.c_str();
     color.r = r;
     color.g = g;
     color.b = b;
@@ -290,13 +289,13 @@ void Game::write(std::string text, int x, int y, int r, int g, int b, int size) 
     SDL_DestroyTexture(texture);
 }
 
-void Game::rendergame() {
-    if ((easy == 1 && mode == 1) || (easy == 1 && mode == 2)) {
+void Game::rendergame(){
+    if ((easy == 1 && mode == 1) || (easy == 1 && mode == 2)){
         SDL_RenderClear(renderer);
         draw(bgr);
         frameCount++;
         timerFPS = SDL_GetTicks() - lastFrame;
-        if (timerFPS < (1000 / 60)) {
+        if (timerFPS < (1000 / 60)){
             SDL_Delay((1000 / 60) - timerFPS);
         }
         write(score, WIDTH / 2 + FONT_SIZE * 3 + 210, FONT_SIZE * 2, 0, 0, 0, 27);
@@ -307,14 +306,14 @@ void Game::rendergame() {
         SDL_RenderPresent(renderer);
         if (r_s == 5 || l_s == 5) running = 0;
     }
-    if (easy == 2 && mode == 1 || easy == 2 && mode == 2) {
+    if (easy == 2 && mode == 1 || easy == 2 && mode == 2){
         SDL_RenderClear(renderer);
         draw(bgr2);
         draw(wall);
         draw(wall1);
         frameCount++;
         timerFPS = SDL_GetTicks() - lastFrame;
-        if (timerFPS < (1000 / 60)) {
+        if (timerFPS < (1000 / 60)){
             SDL_Delay((1000 / 60) - timerFPS);
         }
         SDL_SetRenderDrawColor(renderer, 255, 185, 0, 255);
@@ -327,11 +326,11 @@ void Game::rendergame() {
     }
 }
 
-void Game::rungame() {
+void Game::rungame(){
     running = 1;
-    while (running) {
+    while (running){
         lastFrame = SDL_GetTicks();
-        if (lastFrame >= (lastTime + 1000)) {
+        if (lastFrame >= (lastTime + 1000)){
             lastTime = lastFrame;
             fps = frameCount;
             frameCount = 0;
@@ -342,40 +341,44 @@ void Game::rungame() {
     }
 }
 
-void Game::runback() {
+void Game::runback(){
     bool run = 1;
-    while (run) {
+    while (run){
         running = 1;
-        if (r_s == 5 && mode == 1) { running = 0;
+        if (r_s == 5 && mode == 1){
+            running = 0;
             draw(over);
             SDL_RenderPresent(renderer);
         }
-        if (l_s == 5 && mode == 1) { running = 0;
+        if (l_s == 5 && mode == 1){
+            running = 0;
             draw(win);
             SDL_RenderPresent(renderer);
         }
-        if (l_s == 5 && mode == 2) { running = 0;
+        if (l_s == 5 && mode == 2){
+            running = 0;
             draw(play1);
             SDL_RenderPresent(renderer);
         }
-        if (r_s == 5 && mode == 2) { running = 0;
+        if (r_s == 5 && mode == 2){
+            running = 0;
             draw(play2);
             SDL_RenderPresent(renderer);
         }
-        if (running) {
+        if (running){
             draw(over);
             SDL_RenderPresent(renderer);
         }
         SDL_Event e;
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_MOUSEBUTTONDOWN) {
+        while (SDL_PollEvent(&e)){
+            if (e.type == SDL_MOUSEBUTTONDOWN){
                 int mouseX = e.motion.x;
                 int mouseY = e.motion.y;
-                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 640 && mouseY >= 320 && mouseY <= 400) {
+                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 640 && mouseY >= 320 && mouseY <= 400){
                     restart = 1;
                     run = 0;
                 }
-                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 643 && mouseY >= 440 && mouseY <= 535) {
+                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 643 && mouseY >= 440 && mouseY <= 535){
                     restart = 0;
                     run = 0;
                 }

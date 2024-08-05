@@ -3,11 +3,13 @@
 
 #include "object.h"
 #include "menu.h"
+#include "constants.h"
 
 class Game {
 public:
     Game();
     ~Game();
+    
     SDL_Color color;
 
     bool running;
@@ -20,10 +22,10 @@ public:
     double vX, vY;
     std::string score, level1, level2, score1, mode1, mode2, score2, score3;
     int lastTime = 0;
-    int l_s, r_s;
+    int l_s, r_s; 
     bool turn;
-    Mix_Music* gnhacnen = NULL;
-    Mix_Chunk* gHigh = NULL;
+    Mix_Music *gnhacnen = NULL;
+    Mix_Chunk *gHigh = NULL;
     int easy, mode, start, restart, run;
     int count = 0, count1 = 0;
 
@@ -42,8 +44,8 @@ public:
     void runback();
 
 private:
-    SDL_Renderer* renderer;
-    SDL_Window* window;
+    SDL_Renderer *renderer;
+    SDL_Window *window;
     TTF_Font* font;
 };
 
