@@ -1,28 +1,34 @@
 #ifndef MENU_H
 #define MENU_H
+#include"object.h"
+#include "constants.h"
 
-#include "SDL.h"
+class Menu{
+ private:
+ SDL_Renderer *renderer;
+ SDL_Window *window;
+ TTF_Font* font;
 
-class Menu {
+
 public:
-    Menu();
-    ~Menu();
+Menu();
+~Menu();
+SDL_Color color;
+Object hnen;
+bool running;
+SDL_Rect score_board;
+string level1,level2,mode1,mode2;
+string score,score0,score1,score2,score3;
+int easy=0;
 
-    void init(SDL_Renderer* renderer);
-    void handleEvents();
-    void render();
-    void clean();
-
-    bool isRunning() const { return running; }
-
-private:
-    bool running;
-    SDL_Renderer* renderer;
-    SDL_Texture* backgroundTexture;
-    SDL_Rect backgroundRect;
-
-    SDL_Texture* loadTexture(const char* filePath);
-    void draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest);
+    
+     void draw(Object o);
+     void write(string text, int x, int y);
+   
+     void renderMenu();
+      
+     void inputmenu();
+     void run();
 };
-
+ 
 #endif
