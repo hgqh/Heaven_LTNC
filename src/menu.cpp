@@ -23,8 +23,8 @@ Menu::Menu() {
     Mix_Chunk *gHigh = NULL;
     
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-    gnhacnen = Mix_LoadMUS("assets/nhacnen.mp3");
-    gHigh = Mix_LoadWAV("assets/low.wav");
+    gnhacnen = Mix_LoadMUS("assets/audio/nhacnen.mp3");
+    gHigh = Mix_LoadWAV("assets/audio/low.wav");
     if (Mix_PlayingMusic() == 0) 
         Mix_PlayMusic(gnhacnen, -1);
     else {
@@ -35,7 +35,7 @@ Menu::Menu() {
     }
   
     TTF_Init();
-    font = TTF_OpenFont("assets/Peepo.ttf", FONT_SIZE);
+    font = TTF_OpenFont("assets/fonts/Peepo.ttf", FONT_SIZE);
 }
 
 Menu::~Menu() {
@@ -104,7 +104,7 @@ void Menu::renderMenu() {
     SDL_RenderClear(renderer);
     hnen.setDest(0, 0, 1000, 600);
     hnen.setSource(0, 0, 2000, 1200);
-    hnen.setImage("assets/anhnen.jpg", renderer);
+    hnen.setImage("assets/images/backgrounds/anhnen.jpg", renderer);
     draw(hnen);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -132,7 +132,7 @@ void Menu::run() {
         SDL_RenderClear(renderer);
         hnen.setDest(0, 0, 1000, 600);
         hnen.setSource(0, 0, 2000, 1200);
-        hnen.setImage("assets/anhnen.jpg", renderer);
+        hnen.setImage("assets/images/backgrounds/anhnen.jpg", renderer);
         draw(hnen);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

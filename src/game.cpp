@@ -19,8 +19,8 @@ Game::Game(){
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
    
-    gnhacnen = Mix_LoadMUS("assets/nhacnen.mp3");
-    gHigh =Mix_LoadWAV("assets/low.wav");
+    gnhacnen = Mix_LoadMUS("assets/audio/nhacnen.mp3");
+    gHigh =Mix_LoadWAV("assets/audio/low.wav");
     if(Mix_PlayingMusic() == 0) Mix_PlayMusic(gnhacnen, -1);
     else {
         if(Mix_PausedMusic() == 1) Mix_ResumeMusic();
@@ -28,43 +28,43 @@ Game::Game(){
     }
     TTF_Init();
    
-    font = TTF_OpenFont("assets/Peepo.ttf", FONT_SIZE);
+    font = TTF_OpenFont("assets/fonts/Peepo.ttf", FONT_SIZE);
     bgrMenu.setDest(0, 0, 1000, 600);
     bgrMenu.setSource(0, 0, 2000, 1200);
-    bgrMenu.setImage("assets/bgr.jpg", renderer);
+    bgrMenu.setImage("assets/images/backgrounds/bgr.jpg", renderer);
     bgr.setDest(0, 0, 1000, 600);
     bgr.setSource(0, 0, 2000, 1200);
-    bgr.setImage("assets/bgr.bmp", renderer);
+    bgr.setImage("assets/images/backgrounds/bgr.bmp", renderer);
     bgr2.setDest(0, 0, 1000, 600);
     bgr2.setSource(0, 0, 2000, 1200);
-    bgr2.setImage("assets/bgr2.jpg", renderer);
+    bgr2.setImage("assets/images/backgrounds/bgr2.jpg", renderer);
     wall.setDest(300, 400, 160, 110);
     wall.setSource(0, 0, 1000, 1200);
-    wall.setImage("assets/tieuhanhtinh.png", renderer);
+    wall.setImage("assets/images/sprites/tieuhanhtinh.png", renderer);
     wall1.setDest(550, 150, 150, 100);
     wall1.setSource(0, 0, 1000, 1200);
-    wall1.setImage("assets/tieuhanhtinh2.png", renderer);
+    wall1.setImage("assets/images/sprites/tieuhanhtinh2.png", renderer);
     play.setDest(700, 300, 220, 180);
     play.setSource(0, 0, 2000, 1200);
-    play.setImage("assets/play.png", renderer);
+    play.setImage("assets/images/sprites/play.png", renderer);
     m_ball.setDest(390, 220, 23, 23);
     m_ball.setSource(0, 0, 1000, 1200);
-    m_ball.setImage("assets/ball.png", renderer);
+    m_ball.setImage("assets/images/sprites/ball.png", renderer);
     m_ball2.setDest(390, 220, 23, 23);
     m_ball2.setSource(0, 0, 1000, 1200);
-    m_ball2.setImage("assets/thienthach.png", renderer);
+    m_ball2.setImage("assets/images/sprites/thienthach.png", renderer);
     over.setDest(0, 0, 1000, 600);
     over.setSource(0, 0, 1000, 1200);
-    over.setImage("assets/gameover.jpg", renderer);
+    over.setImage("assets/images/ui/gameover.jpg", renderer);
     win.setDest(0, 0, 1000, 600);
     win.setSource(0, 0, 1000, 1200);
-    win.setImage("assets/youwin.jpg", renderer);
+    win.setImage("assets/images/ui/youwin.jpg", renderer);
     play1.setDest(0, 0, 1000, 600);
     play1.setSource(0, 0, 1000, 1200);
-    play1.setImage("assets/play1.jpg", renderer);
+    play1.setImage("assets/images/sprites/play1.jpg", renderer);
     play2.setDest(0, 0, 1000, 600);
     play2.setSource(0, 0, 1000, 1200);
-    play2.setImage("assets/player2.jpg", renderer);
+    play2.setImage("assets/images/sprites/player2.jpg", renderer);
     level1 = " ", level2 = " ", mode1 = " ", mode2 = " ";
     score1 = "  LEVEL  ";
     score2 = "  MODE ";
@@ -149,7 +149,7 @@ void Game::renderMenu(){
 
 void Game::inputMenu(){
     stringstream ss;
-    ss << "SPECIAL PONG";
+    ss << "HEAVEN PONG";
     SDL_SetWindowTitle(window, ss.str().c_str());
     SDL_Event e;
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
@@ -283,7 +283,7 @@ void Game::draw(Object o){
 void Game::write(string text, int x, int y, int r, int g, int b, int size){
     SDL_Surface *surface;
     SDL_Texture *texture;
-    TTF_OpenFont("assets/Peepo.ttf", size);
+    TTF_OpenFont("assets/fonts/Peepo.ttf", size);
     const char *t = text.c_str();
     color.r = r;
     color.g = g;
