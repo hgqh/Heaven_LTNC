@@ -3,10 +3,19 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include<SDL2/SDL_image.h>
-#include "bits/stdc++.h"
 #include <math.h>
 #include<SDL2/SDL_mixer.h>
-#include<string>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <cmath>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <climits>
+
 
 using namespace std;
 
