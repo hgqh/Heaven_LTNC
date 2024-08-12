@@ -100,7 +100,7 @@ void Game::loadAssets() {
 
     play1.setDest(0, 0, 1000, 600);
     play1.setSource(0, 0, 1000, 1200);
-    play1.setImage("assets/images/sprites/play1.jpg", renderer);
+    play1.setImage("assets/images/sprites/player1.jpg", renderer);
 
     play2.setDest(0, 0, 1000, 600);
     play2.setSource(0, 0, 1000, 1200);
@@ -196,7 +196,7 @@ void Game::displayMenuOptions() {
 
 // Handle user inputs in the menu
 void Game::inputMenu(){
-    stringstream ss;
+    std::stringstream ss;
     ss << "HEAVEN PONG";
     SDL_SetWindowTitle(window, ss.str().c_str());
     
@@ -259,7 +259,7 @@ void Game::runMenu(){
 
 // Update game state
 void Game::update(){
-    score = "   SCORE :    " + to_string(l_s) + "              " + to_string(r_s) + "        (/5)"; 
+    score = "   SCORE :    " + std::to_string(l_s) + "              " + std::to_string(r_s) + "        (/5)"; 
 
     handlePaddleCollision();
     handleBallPosition();

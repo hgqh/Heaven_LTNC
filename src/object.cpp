@@ -1,30 +1,32 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
 #include <string>
-#include <cmath>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <climits>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "object.h"
 
-#include"object.h"
-
-
-void Object:: setDest(int x, int y, int w ,int h){
-    dest.x=x;
-    dest.y=y;
-    dest.w=w;
-    dest.h=h;
+// Set the destination rectangle (position and size)
+void Object::setDest(int x, int y, int w, int h) {
+    dest.x = x;
+    dest.y = y;
+    dest.w = w;
+    dest.h = h;
 }
-    void Object:: setSource (int x,int y, int w ,int h){
-        src.x=x;
-        src.y=y;
-        src.w=w;
-        src.h=h;
+
+// Set the source rectangle (portion of the image to display)
+void Object::setSource(int x, int y, int w, int h) {
+    src.x = x;
+    src.y = y;
+    src.w = w;
+    src.h = h;
+}
+
+// Load an image from a file and create a texture
+void Object::setImage(const std::string& filename, SDL_Renderer* renderer) {
+    SDL_Surface* surf = IMG_Load(filename.c_str()); // Load image into surface
+    if (!surf) {
+        std::cerr << "Failed to load image: " << IMG_GetError() << std::endl;
+        return;
     }
-    void Object:: setImage(string filename,SDL_Renderer* renderer){
-        SDL_Surface* surf=IMG_Load(filename.c_str());
-        tex=SDL_CreateTextureFromSurface(renderer,surf);
-    }
+    tex = SDL_CreateTextureFromSurface(renderer, surf); // Convert surface to texture
+    SDL_FreeSurface(surf); // Free the surface after creating the texture
+}

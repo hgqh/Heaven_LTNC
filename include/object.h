@@ -1,35 +1,27 @@
 #ifndef OBJECT_H
 #define OBJECT_H
+
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include<SDL2/SDL_image.h>
-#include <math.h>
-#include<SDL2/SDL_mixer.h>
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <SDL2/SDL_image.h>
 #include <string>
-#include <cmath>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <climits>
 
+class Object {
+private:
+    SDL_Rect dest; // Destination rectangle
+    SDL_Rect src;  // Source rectangle
+    SDL_Texture* tex; // Texture for the object
 
-using namespace std;
+public:
+    SDL_Rect getDest() const { return dest; }
+    SDL_Rect getSource() const { return src; }
+    
+    void setDest(int x, int y, int w, int h);
+    void setSource(int x, int y, int w, int h);
 
-class Object{
-    private:
-    SDL_Rect dest;
-    SDL_Rect src;
-    SDL_Texture *tex;
-    public:
-    SDL_Rect getDest() const{return dest;}
-    SDL_Rect getSource() const{return src;}
-    void setDest(int x, int y, int w ,int h);
-     void setSource (int x,int y, int w ,int h);
-    void setImage(string filename ,SDL_Renderer* renderer);
-    SDL_Texture* getTex() const {return tex;}
+    // Load an image and create a texture
+    void setImage(const std::string& filename, SDL_Renderer* renderer);
+
+    SDL_Texture* getTex() const { return tex; }
 };
-#endif
+
+#endif // OBJECT_H
