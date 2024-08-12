@@ -9,68 +9,41 @@
 #include <stack>
 #include <climits>
 #include <sstream>
-
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "game.h"
 #include "constants.h"
 
+// Constructor: Initialize the game
 Game::Game(){
-    if(SDL_Init(SDL_INIT_EVERYTHING) < 0) cout << "Failed at SDL_Init()" << endl;
-    if(SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0) cout << "Failed at SDL_CreateWindowAndRenderer())" << endl;
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        std::cout << "Failed at SDL_Init()" << std::endl;
+    if(SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0)
+        std::cout << "Failed at SDL_CreateWindowAndRenderer()" << std::endl;
 
+    // Initialize audio
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-   
     gnhacnen = Mix_LoadMUS("assets/audio/nhacnen.mp3");
-    gHigh =Mix_LoadWAV("assets/audio/low.wav");
-    if(Mix_PlayingMusic() == 0) Mix_PlayMusic(gnhacnen, -1);
-    else {
-        if(Mix_PausedMusic() == 1) Mix_ResumeMusic();
-        else Mix_PauseMusic();
-    }
+    gHigh = Mix_LoadWAV("assets/audio/low.wav");
+    
+    // Start background music
+    if (Mix_PlayingMusic() == 0) 
+        Mix_PlayMusic(gnhacnen, -1);
+    else if (Mix_PausedMusic() == 1)
+        Mix_ResumeMusic();
+    else 
+        Mix_PauseMusic();
+    
+    // Initialize fonts
     TTF_Init();
-   
     font = TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", FONT_SIZE);
-    bgrMenu.setDest(0, 0, 1000, 600);
-    bgrMenu.setSource(0, 0, 2000, 1200);
-    bgrMenu.setImage("assets/images/backgrounds/bgr.jpg", renderer);
-    bgr.setDest(0, 0, 1000, 600);
-    bgr.setSource(0, 0, 2000, 1200);
-    bgr.setImage("assets/images/backgrounds/bgr1.jpg", renderer);
-    bgr2.setDest(0, 0, 1000, 600);
-    bgr2.setSource(0, 0, 2000, 1200);
-    bgr2.setImage("assets/images/backgrounds/bgr2.jpg", renderer);
-    wall.setDest(300, 400, 160, 110);
-    wall.setSource(0, 0, 1000, 1200);
-    wall.setImage("assets/images/sprites/tieuhanhtinh.png", renderer);
-    wall1.setDest(550, 150, 150, 100);
-    wall1.setSource(0, 0, 1000, 1200);
-    wall1.setImage("assets/images/sprites/tieuhanhtinh2.png", renderer);
-    play.setDest(700, 300, 220, 180);
-    play.setSource(0, 0, 2000, 1200);
-    play.setImage("assets/images/sprites/play.png", renderer);
-    m_ball.setDest(390, 220, 23, 23);
-    m_ball.setSource(0, 0, 1000, 1200);
-    m_ball.setImage("assets/images/sprites/thienthach.png", renderer);
-    m_ball2.setDest(390, 220, 23, 23);
-    m_ball2.setSource(0, 0, 1000, 1200);
-    m_ball2.setImage("assets/images/sprites/thienthach.png", renderer);
-    over.setDest(0, 0, 1000, 600);
-    over.setSource(0, 0, 1000, 1200);
-    over.setImage("assets/images/ui/gameover.jpg", renderer);
-    win.setDest(0, 0, 1000, 600);
-    win.setSource(0, 0, 1000, 1200);
-    win.setImage("assets/images/ui/youwin.jpg", renderer);
-    play1.setDest(0, 0, 1000, 600);
-    play1.setSource(0, 0, 1000, 1200);
-    play1.setImage("assets/images/sprites/play1.jpg", renderer);
-    play2.setDest(0, 0, 1000, 600);
-    play2.setSource(0, 0, 1000, 1200);
-    play2.setImage("assets/images/sprites/player2.jpg", renderer);
-    level1 = " ", level2 = " ", mode1 = " ", mode2 = " ";
-    score1 = "  LEVEL  ";
-    score2 = "  MODE ";
-    score3 = "  PLAY ";
+
+    // Load game assets
+    loadAssets();
 }
 
+// Destructor: Clean up resources
 Game::~Game(){
     Mix_FreeChunk(gHigh);
     gHigh = NULL;
@@ -83,20 +56,86 @@ Game::~Game(){
     SDL_Quit();
 }
 
+// Load game assets
+void Game::loadAssets() {
+    bgrMenu.setDest(0, 0, 1000, 600);
+    bgrMenu.setSource(0, 0, 2000, 1200);
+    bgrMenu.setImage("assets/images/backgrounds/bgr.jpg", renderer);
+    
+    bgr.setDest(0, 0, 1000, 600);
+    bgr.setSource(0, 0, 2000, 1200);
+    bgr.setImage("assets/images/backgrounds/bgr1.jpg", renderer);
+    
+    bgr2.setDest(0, 0, 1000, 600);
+    bgr2.setSource(0, 0, 2000, 1200);
+    bgr2.setImage("assets/images/backgrounds/bgr2.jpg", renderer);
+
+    wall.setDest(300, 400, 160, 110);
+    wall.setSource(0, 0, 1000, 1200);
+    wall.setImage("assets/images/sprites/tieuhanhtinh.png", renderer);
+
+    wall1.setDest(550, 150, 150, 100);
+    wall1.setSource(0, 0, 1000, 1200);
+    wall1.setImage("assets/images/sprites/tieuhanhtinh2.png", renderer);
+
+    play.setDest(700, 300, 220, 180);
+    play.setSource(0, 0, 2000, 1200);
+    play.setImage("assets/images/sprites/play.png", renderer);
+
+    m_ball.setDest(390, 220, 23, 23);
+    m_ball.setSource(0, 0, 1000, 1200);
+    m_ball.setImage("assets/images/sprites/thienthach.png", renderer);
+
+    m_ball2.setDest(390, 220, 23, 23);
+    m_ball2.setSource(0, 0, 1000, 1200);
+    m_ball2.setImage("assets/images/sprites/thienthach.png", renderer);
+
+    over.setDest(0, 0, 1000, 600);
+    over.setSource(0, 0, 1000, 1200);
+    over.setImage("assets/images/ui/gameover.jpg", renderer);
+
+    win.setDest(0, 0, 1000, 600);
+    win.setSource(0, 0, 1000, 1200);
+    win.setImage("assets/images/ui/youwin.jpg", renderer);
+
+    play1.setDest(0, 0, 1000, 600);
+    play1.setSource(0, 0, 1000, 1200);
+    play1.setImage("assets/images/sprites/play1.jpg", renderer);
+
+    play2.setDest(0, 0, 1000, 600);
+    play2.setSource(0, 0, 1000, 1200);
+    play2.setImage("assets/images/sprites/player2.jpg", renderer);
+
+    level1 = " ";
+    level2 = " ";
+    mode1 = " ";
+    mode2 = " ";
+    score1 = "  LEVEL  ";
+    score2 = "  MODE ";
+    score3 = "  PLAY ";
+}
+
+// Initialize game variables
 void Game::variable(){
     l_s = r_s = 0;
-    l_paddle.x = 32; l_paddle.h = HEIGHT / 5;
+    l_paddle.x = 32; 
+    l_paddle.h = HEIGHT / 5;
     l_paddle.y = (HEIGHT / 2) - (l_paddle.h / 2);
     l_paddle.w = 12;
+
     r_paddle = l_paddle;
     r_paddle.x = WIDTH - r_paddle.w - 32;
-    tuong.x = 328, tuong.y = 415;
-    tuong.w = 95, tuong.h = 80;
-    tuong1.x = 565, tuong1.y = 155;
-    tuong1.w = 101, tuong1.h = 85;
+
+    tuong.x = 328; tuong.y = 415;
+    tuong.w = 95; tuong.h = 80;
+
+    tuong1.x = 565; tuong1.y = 155;
+    tuong1.w = 101; tuong1.h = 85;
+
     ball.w = ball.h = SIZE;
 }
 
+// Serve the ball
 void Game::serve(){
     if (turn) {
         ball.x = l_paddle.x + (l_paddle.w * 4);
@@ -112,12 +151,25 @@ void Game::serve(){
     turn = !turn;
 }
 
+// Render the menu screen
 void Game::renderMenu(){
     SDL_RenderClear(renderer);
     draw(bgrMenu);
     if ((count == 1 && count1 == 1) || (count == 1 && count1 == 2) || (count == 2 && count1 == 1) || (count == 2 && count1 == 2))
         draw(play);
     
+    // Displaying level and mode options
+    displayMenuOptions();
+
+    if (count == 0 || count == 1 || count == 2 || count1 == 1 || count1 == 2){
+        write(score1, WIDTH / 2 - 215, FONT_SIZE * 6, 0, 0, 0, FONT_SIZE);
+        write(score2, WIDTH / 2 + 100, FONT_SIZE * 6, 0, 0, 0, FONT_SIZE);
+        SDL_RenderPresent(renderer);
+    }  
+}
+
+// Display the options in the menu
+void Game::displayMenuOptions() {
     if (count == 0 || count1 == 0){
         write(level1, WIDTH / 2 - 215, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
         write(level2, WIDTH / 2 - 215, FONT_SIZE * 6 + 100, 0, 0, 0, FONT_SIZE);
@@ -140,59 +192,63 @@ void Game::renderMenu(){
         write(mode1, WIDTH / 2 + 100, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
         write(mode2, WIDTH / 2 + 100, FONT_SIZE * 6 + 100, 255, 0, 0, FONT_SIZE);
     }
-    if (count == 0 || count == 1 || count == 2 || count1 == 1 || count1 == 2){
-        write(score1, WIDTH / 2 - 215, FONT_SIZE * 6, 0, 0, 0, FONT_SIZE);
-        write(score2, WIDTH / 2 + 100, FONT_SIZE * 6, 0, 0, 0, FONT_SIZE);
-        SDL_RenderPresent(renderer);
-    }  
 }
 
+// Handle user inputs in the menu
 void Game::inputMenu(){
     stringstream ss;
     ss << "HEAVEN PONG";
     SDL_SetWindowTitle(window, ss.str().c_str());
+    
     SDL_Event e;
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
+    
     while (SDL_PollEvent(&e)){
         if (e.type == SDL_QUIT) running = 0, run = 1;
-        if (e.type == SDL_MOUSEBUTTONDOWN){
-            int mouseX = e.motion.x;
-            int mouseY = e.motion.y;
-
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 80 && mouseX <= 270 && mouseY >= 270 && mouseY <= 330){
-                level1 = " EASY  ";
-                level2 = " HARD  ";
-                score1 = " ";
-            }
-
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 110 && mouseX <= 270 && mouseY >= 170 && mouseY <= 225){
-                easy = 1;
-                count = 1;
-            }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 101 && mouseX <= 273 && mouseY >= 371 && mouseY <= 425){
-                easy = 2;
-                count = 2;
-            }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 450 && mouseX <= 580 && mouseY >= 275 && mouseY <= 330){
-                mode1 = " 1 PLAYER";
-                mode2 = " 2 PLAYER";
-                score2 = " ";
-            }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 375 && mouseX <= 600 && mouseY >= 170 && mouseY <= 225){
-                mode = 1, count1 = 1;
-            }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 365 && mouseX <= 600 && mouseY >= 371 && mouseY <= 425){
-                mode = 2, count1 = 2;
-            }
-            if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 700 && mouseX <= 920 && mouseY >= 352 && mouseY <= 441){
-                start = 1;
-            }
-        }
+        handleMouseClick(e);
         if (keystates[SDL_SCANCODE_ESCAPE]) running = 0, run = 1;
         if (start == 1) running = 0;
     }
 }
 
+// Handle mouse clicks in the menu
+void Game::handleMouseClick(SDL_Event& e) {
+    if (e.type == SDL_MOUSEBUTTONDOWN){
+        int mouseX = e.motion.x;
+        int mouseY = e.motion.y;
+
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 80 && mouseX <= 270 && mouseY >= 270 && mouseY <= 330){
+            level1 = " EASY  ";
+            level2 = " HARD  ";
+            score1 = " ";
+        }
+
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 110 && mouseX <= 270 && mouseY >= 170 && mouseY <= 225){
+            easy = 1;
+            count = 1;
+        }
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 101 && mouseX <= 273 && mouseY >= 371 && mouseY <= 425){
+            easy = 2;
+            count = 2;
+        }
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 450 && mouseX <= 580 && mouseY >= 275 && mouseY <= 330){
+            mode1 = " 1 PLAYER";
+            mode2 = " 2 PLAYER";
+            score2 = " ";
+        }
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 375 && mouseX <= 600 && mouseY >= 170 && mouseY <= 225){
+            mode = 1, count1 = 1;
+        }
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 365 && mouseX <= 600 && mouseY >= 371 && mouseY <= 425){
+            mode = 2, count1 = 2;
+        }
+        if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 700 && mouseX <= 920 && mouseY >= 352 && mouseY <= 441){
+            start = 1;
+        }
+    }
+}
+
+// Main menu loop
 void Game::runMenu(){
     running = 1;
     while (running){
@@ -201,33 +257,49 @@ void Game::runMenu(){
     }
 }
 
+// Update game state
 void Game::update(){
     score = "   SCORE :    " + to_string(l_s) + "              " + to_string(r_s) + "        (/5)"; 
+
+    handlePaddleCollision();
+    handleBallPosition();
+
+    ball.x += vX;
+    ball.y += vY;
+
+    m_ball.setDest(ball.x - 8, ball.y - 4, 23, 23);
+    m_ball2.setDest(ball.x - 8, ball.y - 4, 23, 23);
+}
+
+// Handle collision between ball and paddles
+void Game::handlePaddleCollision() {
     if (SDL_HasIntersection(&ball, &r_paddle)) {
         Mix_PlayChannel(-1, gHigh, 0);
-        double kc = (r_paddle.y + (r_paddle.h / 2)) - (ball.y + (SIZE / 2));
-        double norm = kc / (r_paddle.h / 2);
-        double bounce = norm * (5 * PI / 12);
-        vX = -BALL_SPEED * cos(bounce);
-        vY = BALL_SPEED * -sin(bounce);
+        calculateBounce(r_paddle);
     }
     if (SDL_HasIntersection(&ball, &l_paddle)) {
         Mix_PlayChannel(-1, gHigh, 0);
-        double kc = (l_paddle.y + (l_paddle.h / 2)) - (ball.y + (SIZE / 2));
-        double norm = kc / (l_paddle.h / 2);
-        double bounce = norm * (5 * PI / 12);
-        vX = BALL_SPEED * cos(bounce);
-        vY = BALL_SPEED * -sin(bounce);
+        calculateBounce(l_paddle);
     }
-    if (easy == 2){
+}
+
+// Calculate bounce direction and speed after collision
+void
+ Game::calculateBounce(const SDL_Rect& paddle) {
+    double kc = (paddle.y + (paddle.h / 2)) - (ball.y + (SIZE / 2));
+    double norm = kc / (paddle.h / 2);
+    double bounce = norm * (5 * PI / 12);
+
+    vX = BALL_SPEED * (paddle.x == r_paddle.x ? -cos(bounce) : cos(bounce));
+    vY = BALL_SPEED * -sin(bounce);
+}
+
+// Handle ball position and scoring
+void Game::handleBallPosition() {
+    if (easy == 2) {
         if (SDL_HasIntersection(&tuong, &ball) || SDL_HasIntersection(&tuong1, &ball)){
             Mix_PlayChannel(-1, gHigh, 0);
-
-            double kc = (l_paddle.y + (l_paddle.h / 2)) - (ball.y + (SIZE / 2));
-            double norm = kc / (l_paddle.h / 2);
-            double bounce = norm * (5 * PI / 12);
-            vX = BALL_SPEED * cos(bounce);
-            vY = BALL_SPEED * -sin(bounce);
+            calculateBounce(l_paddle);
         }
     }
     if ((easy == 1 && mode == 1) || (easy == 2 && mode == 1)){
@@ -247,12 +319,9 @@ void Game::update(){
     if (l_paddle.y + l_paddle.h > HEIGHT) l_paddle.y = HEIGHT - l_paddle.h;
     if (r_paddle.y < 0) r_paddle.y = 0;
     if (r_paddle.y + r_paddle.h > HEIGHT) r_paddle.y = HEIGHT - r_paddle.h;
-    ball.x += vX;
-    ball.y += vY;
-    m_ball.setDest(ball.x - 8, ball.y - 4, 23, 23);
-    m_ball2.setDest(ball.x - 8, ball.y - 4, 23, 23);
 }
 
+// Handle game inputs
 void Game::inputgame(){
     SDL_Event e;
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
@@ -274,13 +343,15 @@ void Game::inputgame(){
     }
 }
 
+// Draw game objects
 void Game::draw(Object o){
     SDL_Rect dest = o.getDest();
     SDL_Rect src = o.getSource();
     SDL_RenderCopyEx(renderer, o.getTex(), &src, &dest, 0, NULL, SDL_FLIP_NONE);
 }
 
-void Game::write(string text, int x, int y, int r, int g, int b, int size){
+// Render text on the screen
+void Game::write(std::string text, int x, int y, int r, int g, int b, int size){
     SDL_Surface *surface;
     SDL_Texture *texture;
     TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", size);
@@ -300,15 +371,12 @@ void Game::write(string text, int x, int y, int r, int g, int b, int size){
     SDL_DestroyTexture(texture);
 }
 
+// Render the game screen
 void Game::rendergame(){
     if ((easy == 1 && mode == 1) || (easy == 1 && mode == 2)){
         SDL_RenderClear(renderer);
         draw(bgr);
-        frameCount++;
-        timerFPS = SDL_GetTicks() - lastFrame;
-        if (timerFPS < (1000 / 60)){
-            SDL_Delay((1000 / 60) - timerFPS);
-        }
+        manageFrameRate();
         write(score, WIDTH / 2 + FONT_SIZE * 3 + 210, FONT_SIZE * 2, 0, 0, 0, 27);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &l_paddle);
@@ -322,11 +390,7 @@ void Game::rendergame(){
         draw(bgr2);
         draw(wall);
         draw(wall1);
-        frameCount++;
-        timerFPS = SDL_GetTicks() - lastFrame;
-        if (timerFPS < (1000 / 60)){
-            SDL_Delay((1000 / 60) - timerFPS);
-        }
+        manageFrameRate();
         SDL_SetRenderDrawColor(renderer, 255, 185, 0, 255);
         write(score, WIDTH / 2 + FONT_SIZE * 3 + 210, FONT_SIZE * 2, 255, 255, 255, 37);
         SDL_RenderFillRect(renderer, &l_paddle);
@@ -337,6 +401,16 @@ void Game::rendergame(){
     }
 }
 
+// Manage frame rate
+void Game::manageFrameRate() {
+    frameCount++;
+    timerFPS = SDL_GetTicks() - lastFrame;
+    if (timerFPS < (1000 / 60)){
+        SDL_Delay((1000 / 60) - timerFPS);
+    }
+}
+
+// Main game loop
 void Game::rungame(){
     running = 1;
     while (running){
@@ -352,48 +426,57 @@ void Game::rungame(){
     }
 }
 
-void Game::runback(){
-    bool run = 1;
-    while (run){
-        running = 1;
-        if (r_s == 5 && mode == 1){
-            running = 0;
+// Run the end-game screen
+void Game::runback() {
+    bool run = true; 
+    while (run) {
+        running = true;
+
+        // Check end game conditions and display the corresponding screen
+        if (r_s == 5 && mode == 1) {
+            running = false;
             draw(over);
             SDL_RenderPresent(renderer);
-        }
-        if (l_s == 5 && mode == 1){
-            running = 0;
+        } else if (l_s == 5 && mode == 1) {
+            running = false;
             draw(win);
             SDL_RenderPresent(renderer);
-        }
-        if (l_s == 5 && mode == 2){
-            running = 0;
+        } else if (l_s == 5 && mode == 2) {
+            running = false;
             draw(play1);
             SDL_RenderPresent(renderer);
-        }
-        if (r_s == 5 && mode == 2){
-            running = 0;
+        } else if (r_s == 5 && mode == 2) {
+            running = false;
             draw(play2);
             SDL_RenderPresent(renderer);
-        }
-        if (running){
+        } else if (running) {
+            // If the game is still running, display the "Game Over" screen
             draw(over);
             SDL_RenderPresent(renderer);
         }
+
+        // Handle user events
         SDL_Event e;
-        while (SDL_PollEvent(&e)){
-            if (e.type == SDL_MOUSEBUTTONDOWN){
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
                 int mouseX = e.motion.x;
                 int mouseY = e.motion.y;
-                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 640 && mouseY >= 320 && mouseY <= 400){
+
+                // Check mouse position and handle click for "Restart" action
+                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 640 && mouseY >= 320 && mouseY <= 400) {
                     restart = 1;
-                    run = 0;
+                    run = false; // Exit the loop when clicking in the restart area
                 }
-                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 643 && mouseY >= 440 && mouseY <= 535){
+                
+                // Check mouse position and handle click for "Quit" action
+                if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 643 && mouseY >= 440 && mouseY <= 535) {
                     restart = 0;
-                    run = 0;
+                    run = false; // Exit the loop when clicking in the quit area
                 }
             }
         }
     }
 }
+
+
+

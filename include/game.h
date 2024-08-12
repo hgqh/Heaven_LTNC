@@ -4,6 +4,10 @@
 #include "object.h"
 #include "menu.h"
 #include "constants.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include <string>
 
 class Game {
 public:
@@ -29,24 +33,38 @@ public:
     int easy, mode, start, restart, run;
     int count = 0, count1 = 0;
 
+    // Các phương thức điều khiển logic trò chơi
     void variable();
     void serve();
-    void draw(Object o);
-    void DRAW(const char* msg, int x, int y, int r, int g, int b, int size);
-    void inputMenu();
-    void renderMenu();
-    void runMenu();
     void update();
     void inputgame();
-    void write(std::string text, int x, int y, int r, int g, int b, int size);
-    void rendergame();
     void rungame();
     void runback();
+
+    // Các phương thức điều khiển giao diện người dùng
+    void draw(Object o);
+    void renderMenu();
+    void inputMenu();
+    void runMenu();
+    void rendergame();
+    void write(std::string text, int x, int y, int r, int g, int b, int size);
+
+    // Các phương thức bổ sung
+    void loadAssets();  // Để tải tài nguyên (như hình ảnh, âm thanh)
+    void displayMenuOptions();  // Hiển thị các tùy chọn menu
 
 private:
     SDL_Renderer *renderer;
     SDL_Window *window;
     TTF_Font* font;
+
+    // Các phương thức phụ trợ
+    void handlePaddleCollision();
+    void calculateBounce(const SDL_Rect& paddle);
+    void handleBallPosition();
+    void handleMouseClick(SDL_Event& e);
+    void handleEndGameMouseClick();
+    void manageFrameRate();
 };
 
 #endif
