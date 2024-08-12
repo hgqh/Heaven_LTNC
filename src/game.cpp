@@ -28,7 +28,7 @@ Game::Game(){
     }
     TTF_Init();
    
-    font = TTF_OpenFont("assets/fonts/Peepo.ttf", FONT_SIZE);
+    font = TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", FONT_SIZE);
     bgrMenu.setDest(0, 0, 1000, 600);
     bgrMenu.setSource(0, 0, 2000, 1200);
     bgrMenu.setImage("assets/images/backgrounds/bgr.jpg", renderer);
@@ -283,7 +283,7 @@ void Game::draw(Object o){
 void Game::write(string text, int x, int y, int r, int g, int b, int size){
     SDL_Surface *surface;
     SDL_Texture *texture;
-    TTF_OpenFont("assets/fonts/Peepo.ttf", size);
+    TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", size);
     const char *t = text.c_str();
     color.r = r;
     color.g = g;

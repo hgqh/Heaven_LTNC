@@ -35,7 +35,7 @@ Menu::Menu() {
     }
   
     TTF_Init();
-    font = TTF_OpenFont("assets/fonts/Peepo.ttf", FONT_SIZE);
+    font = TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", FONT_SIZE);
 }
 
 Menu::~Menu() {
