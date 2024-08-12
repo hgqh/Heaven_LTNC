@@ -34,7 +34,7 @@ Game::Game(){
     bgrMenu.setImage("assets/images/backgrounds/bgr.jpg", renderer);
     bgr.setDest(0, 0, 1000, 600);
     bgr.setSource(0, 0, 2000, 1200);
-    bgr.setImage("assets/images/backgrounds/bgr.bmp", renderer);
+    bgr.setImage("assets/images/backgrounds/bgr1.jpg", renderer);
     bgr2.setDest(0, 0, 1000, 600);
     bgr2.setSource(0, 0, 2000, 1200);
     bgr2.setImage("assets/images/backgrounds/bgr2.jpg", renderer);
@@ -49,7 +49,7 @@ Game::Game(){
     play.setImage("assets/images/sprites/play.png", renderer);
     m_ball.setDest(390, 220, 23, 23);
     m_ball.setSource(0, 0, 1000, 1200);
-    m_ball.setImage("assets/images/sprites/ball.png", renderer);
+    m_ball.setImage("assets/images/sprites/thienthach.png", renderer);
     m_ball2.setDest(390, 220, 23, 23);
     m_ball2.setSource(0, 0, 1000, 1200);
     m_ball2.setImage("assets/images/sprites/thienthach.png", renderer);
