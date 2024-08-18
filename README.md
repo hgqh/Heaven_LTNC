@@ -1,5 +1,5 @@
 # HEAVEN PONG
-- Thử nghiệm game: [https://youtu.be/EyTwTOWr5zU](https://youtu.be/EziCb7U9UbU)
+- Thử nghiệm game: 
 
 # Giới thiệu game
 
