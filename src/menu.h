@@ -9,14 +9,14 @@
 
 class Menu {
 private:
-    SDL_Renderer *renderer;  // Renderer for drawing
-    SDL_Window *window;      // Window for the game
-    TTF_Font *font;          // Font for rendering text
+    SDL_Renderer *renderer;  
+    SDL_Window *window;      
+    TTF_Font *font;          
 
-    Mix_Music *gnhacnen;     // Background music
-    Mix_Chunk *gHigh;        // Sound effect
+    Mix_Music *gnhacnen;     
+    Mix_Chunk *gHigh;        
 
-    SDL_Rect score_board;    // Rect for score display
+    SDL_Rect score_board;    
 
 public:
     Menu();
@@ -30,7 +30,7 @@ public:
     int easy = 0;
 
     void draw(Object o);                     
-    void write(std::string text, int x, int y);  // Write text to screen
+    void write(std::string text, int x, int y);
     void renderMenu();
     void inputmenu();
     void run();

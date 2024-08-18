@@ -15,19 +15,18 @@
 #include "game.h"
 #include "constants.h"
 
-// Constructor: Initialize the game
 Game::Game(){
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
         std::cout << "Failed at SDL_Init()" << std::endl;
     if(SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0)
         std::cout << "Failed at SDL_CreateWindowAndRenderer()" << std::endl;
 
-    // Initialize audio
+    // Audio
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     gnhacnen = Mix_LoadMUS("assets/audio/nhacnen.mp3");
     gHigh = Mix_LoadWAV("assets/audio/low.wav");
     
-    // Start background music
+  
     if (Mix_PlayingMusic() == 0) 
         Mix_PlayMusic(gnhacnen, -1);
     else if (Mix_PausedMusic() == 1)
@@ -35,15 +34,14 @@ Game::Game(){
     else 
         Mix_PauseMusic();
     
-    // Initialize fonts
+    // Fonts
     TTF_Init();
     font = TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", FONT_SIZE);
 
-    // Load game assets
+
     loadAssets();
 }
 
-// Destructor: Clean up resources
 Game::~Game(){
     Mix_FreeChunk(gHigh);
     gHigh = NULL;
@@ -56,7 +54,6 @@ Game::~Game(){
     SDL_Quit();
 }
 
-// Load game assets
 void Game::loadAssets() {
     bgrMenu.setDest(0, 0, 1000, 600);
     bgrMenu.setSource(0, 0, 2000, 1200);
@@ -115,7 +112,7 @@ void Game::loadAssets() {
     score3 = "  PLAY ";
 }
 
-// Initialize game variables
+
 void Game::variable(){
     l_s = r_s = 0;
     l_paddle.x = 32; 
@@ -151,14 +148,13 @@ void Game::serve(){
     turn = !turn;
 }
 
-// Render the menu screen
+
 void Game::renderMenu(){
     SDL_RenderClear(renderer);
     draw(bgrMenu);
     if ((count == 1 && count1 == 1) || (count == 1 && count1 == 2) || (count == 2 && count1 == 1) || (count == 2 && count1 == 2))
         draw(play);
     
-    // Displaying level and mode options
     displayMenuOptions();
 
     if (count == 0 || count == 1 || count == 2 || count1 == 1 || count1 == 2){
@@ -168,7 +164,7 @@ void Game::renderMenu(){
     }  
 }
 
-// Display the options in the menu
+
 void Game::displayMenuOptions() {
     if (count == 0 || count1 == 0){
         write(level1, WIDTH / 2 - 215, FONT_SIZE * 6 - 100, 0, 0, 0, FONT_SIZE);
@@ -194,7 +190,6 @@ void Game::displayMenuOptions() {
     }
 }
 
-// Handle user inputs in the menu
 void Game::inputMenu(){
     std::stringstream ss;
     ss << "HEAVEN PONG";
@@ -211,7 +206,7 @@ void Game::inputMenu(){
     }
 }
 
-// Handle mouse clicks in the menu
+
 void Game::handleMouseClick(SDL_Event& e) {
     if (e.type == SDL_MOUSEBUTTONDOWN){
         int mouseX = e.motion.x;
@@ -248,7 +243,7 @@ void Game::handleMouseClick(SDL_Event& e) {
     }
 }
 
-// Main menu loop
+
 void Game::runMenu(){
     running = 1;
     while (running){
@@ -271,7 +266,7 @@ void Game::update(){
     m_ball2.setDest(ball.x - 8, ball.y - 4, 23, 23);
 }
 
-// Handle collision between ball and paddles
+
 void Game::handlePaddleCollision() {
     if (SDL_HasIntersection(&ball, &r_paddle)) {
         Mix_PlayChannel(-1, gHigh, 0);
@@ -283,7 +278,7 @@ void Game::handlePaddleCollision() {
     }
 }
 
-// Calculate bounce direction and speed after collision
+
 void
  Game::calculateBounce(const SDL_Rect& paddle) {
     double kc = (paddle.y + (paddle.h / 2)) - (ball.y + (SIZE / 2));
@@ -321,7 +316,7 @@ void Game::handleBallPosition() {
     if (r_paddle.y + r_paddle.h > HEIGHT) r_paddle.y = HEIGHT - r_paddle.h;
 }
 
-// Handle game inputs
+
 void Game::inputgame(){
     SDL_Event e;
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
@@ -343,14 +338,14 @@ void Game::inputgame(){
     }
 }
 
-// Draw game objects
+
 void Game::draw(Object o){
     SDL_Rect dest = o.getDest();
     SDL_Rect src = o.getSource();
     SDL_RenderCopyEx(renderer, o.getTex(), &src, &dest, 0, NULL, SDL_FLIP_NONE);
 }
 
-// Render text on the screen
+
 void Game::write(std::string text, int x, int y, int r, int g, int b, int size){
     SDL_Surface *surface;
     SDL_Texture *texture;
@@ -371,7 +366,7 @@ void Game::write(std::string text, int x, int y, int r, int g, int b, int size){
     SDL_DestroyTexture(texture);
 }
 
-// Render the game screen
+
 void Game::rendergame(){
     if ((easy == 1 && mode == 1) || (easy == 1 && mode == 2)){
         SDL_RenderClear(renderer);
@@ -401,7 +396,7 @@ void Game::rendergame(){
     }
 }
 
-// Manage frame rate
+
 void Game::manageFrameRate() {
     frameCount++;
     timerFPS = SDL_GetTicks() - lastFrame;
@@ -410,7 +405,7 @@ void Game::manageFrameRate() {
     }
 }
 
-// Main game loop
+
 void Game::rungame(){
     running = 1;
     while (running){
@@ -432,7 +427,6 @@ void Game::runback() {
     while (run) {
         running = true;
 
-        // Check end game conditions and display the corresponding screen
         if (r_s == 5 && mode == 1) {
             running = false;
             draw(over);
@@ -450,28 +444,28 @@ void Game::runback() {
             draw(play2);
             SDL_RenderPresent(renderer);
         } else if (running) {
-            // If the game is still running, display the "Game Over" screen
+            
             draw(over);
             SDL_RenderPresent(renderer);
         }
 
-        // Handle user events
+
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_MOUSEBUTTONDOWN) {
                 int mouseX = e.motion.x;
                 int mouseY = e.motion.y;
 
-                // Check mouse position and handle click for "Restart" action
+
                 if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 640 && mouseY >= 320 && mouseY <= 400) {
                     restart = 1;
-                    run = false; // Exit the loop when clicking in the restart area
+                    run = false; 
                 }
                 
-                // Check mouse position and handle click for "Quit" action
+                
                 if (e.button.button == SDL_BUTTON_LEFT && mouseX >= 360 && mouseX <= 643 && mouseY >= 440 && mouseY <= 535) {
                     restart = 0;
-                    run = false; // Exit the loop when clicking in the quit area
+                    run = false; 
                 }
             }
         }

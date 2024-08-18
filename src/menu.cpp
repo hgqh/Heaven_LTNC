@@ -3,14 +3,13 @@
 #include "menu.h"
 #include "constants.h"
 
-// Constructor initializes SDL components, audio, and font
 Menu::Menu() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) 
         std::cout << "Failed at SDL_Init()" << std::endl;
     if (SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0) 
         std::cout << "Failed at SDL_CreateWindowAndRenderer()" << std::endl;
  
-    // Initialize audio
+    // Audio
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     gnhacnen = Mix_LoadMUS("assets/audio/nhacnen.mp3");
     gHigh = Mix_LoadWAV("assets/audio/low.wav");
@@ -25,12 +24,11 @@ Menu::Menu() {
             Mix_PauseMusic();
     }
   
-    // Initialize font
+    // Font
     TTF_Init();
     font = TTF_OpenFont("assets/fonts/Cookiemonster-gv11.ttf", FONT_SIZE);
 }
 
-// Destructor releases resources
 Menu::~Menu() {
     Mix_FreeChunk(gHigh);
     Mix_FreeMusic(gnhacnen);
@@ -40,7 +38,7 @@ Menu::~Menu() {
     SDL_Quit();
 }
 
-// Render text to the screen
+// Text to the screen
 void Menu::write(std::string text, int x, int y) {
     SDL_Surface *surface;
     SDL_Texture *texture;
@@ -56,7 +54,7 @@ void Menu::write(std::string text, int x, int y) {
     SDL_DestroyTexture(texture);
 }
 
-// Handle user input in the menu
+// Input in the menu
 void Menu::inputmenu() {
     SDL_Event e;
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
@@ -88,14 +86,14 @@ void Menu::inputmenu() {
     if (keystates[SDL_SCANCODE_ESCAPE]) running = 0; // Handle escape key press
 }
 
-// Draw an object to the screen
+// Draw an object
 void Menu::draw(Object o) {
     SDL_Rect dest = o.getDest();
     SDL_Rect src = o.getSource();
     SDL_RenderCopyEx(renderer, o.getTex(), &src, &dest, 0, NULL, SDL_FLIP_NONE);
 }
 
-// Render the menu screen
+// Menu screen
 void Menu::renderMenu() {
     SDL_RenderClear(renderer);
     hnen.setDest(0, 0, 1000, 600);
@@ -120,6 +118,6 @@ void Menu::run() {
     while (running) {
         renderMenu();
         inputmenu();
-        if (easy == 1) running = 0; // Exit if the game starts
+        if (easy == 1) running = 0;
     }
 }

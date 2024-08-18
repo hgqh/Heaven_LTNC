@@ -7,9 +7,9 @@
 
 class Object {
 private:
-    SDL_Rect dest; // Destination rectangle
-    SDL_Rect src;  // Source rectangle
-    SDL_Texture* tex; // Texture for the object
+    SDL_Rect dest;
+    SDL_Rect src;
+    SDL_Texture* tex; 
 
 public:
     SDL_Rect getDest() const { return dest; }
@@ -18,7 +18,7 @@ public:
     void setDest(int x, int y, int w, int h);
     void setSource(int x, int y, int w, int h);
 
-    // Load an image and create a texture
+    
     void setImage(const std::string& filename, SDL_Renderer* renderer);
 
     SDL_Texture* getTex() const { return tex; }

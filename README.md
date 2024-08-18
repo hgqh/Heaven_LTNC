@@ -3,7 +3,7 @@
 
 # Giới thiệu game
 
-*SPECIAL PONG* là một game thuộc thể loại Pong. Trong game, bạn sẽ tham gia vào các trận đấu bóng với chế độ 1 người chơi hoặc 2 người chơi. Mục tiêu là điều khiển thanh chắn để đỡ bóng và ghi điểm bằng cách làm bóng vượt qua đối phương. Trò chơi cung cấp hai cấp độ khó: EASY và HARD, với các bản đồ và thử thách khác nhau. Người chơi sẽ chiến thắng khi đạt 5 điểm trước.
+*SPECIAL PONG* là một game phát triển từ thể loại game Ping Pong truyền thống. Trong game, bạn sẽ tham gia vào các trận đấu bóng với chế độ 1 người chơi hoặc 2 người chơi. Mục tiêu là điều khiển thanh chắn để đỡ bóng và ghi điểm bằng cách làm bóng vượt qua đối phương. Trò chơi cung cấp hai cấp độ khó: EASY và HARD, với các không gian và thử thách khác nhau. Người chơi sẽ chiến thắng khi đạt 5 điểm trước.
 
 - [0. Cách tải game](#0-cách-tải-game)
   * [a. Cách 1: Chơi game từ bản nén sẵn](#a-cách-1-chơi-game-từ-bản-nén-sẵn)

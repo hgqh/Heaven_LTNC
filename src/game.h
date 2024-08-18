@@ -34,13 +34,13 @@ public:
 
     // Game logic methods
     void variable(); 
-    void serve(); // Serve the ball
-    void update(); // Update game state
+    void serve(); 
+    void update(); 
     void inputgame(); 
     void rungame(); 
     void runback(); 
 
-    // UI methods
+   
     void draw(Object o); 
     void renderMenu(); 
     void inputMenu(); 
@@ -48,20 +48,20 @@ public:
     void rendergame(); 
     void write(std::string text, int x, int y, int r, int g, int b, int size); // Display text
 
-    void loadAssets();  // Load resources
-    void displayMenuOptions();  // Show menu options
+    void loadAssets();  
+    void displayMenuOptions();  
 
 private:
     SDL_Renderer *renderer;
     SDL_Window *window;
     TTF_Font* font;
 
-    // Helper methods
+
     void handlePaddleCollision(); 
     void calculateBounce(const SDL_Rect& paddle);
     void handleBallPosition(); 
     void handleMouseClick(SDL_Event& e);
-    //void handleEndGameMouseClick(); 
+  
     void manageFrameRate();
 };
 
