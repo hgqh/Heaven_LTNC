@@ -16,7 +16,12 @@
   * [b. Chế độ HARD](#b-chế-độ-hard)
 - [5. Chiến thắng và thất bại](#5-chiến-thắng-và-thất-bại)
 - [Về đồ họa của game](#Về-đồ-họa-của-game)
+
+- [Nguồn tham khảo](#Nguồn-tham-khảo)
+
 - [Về source code của game](#Về-source-code-của-game)
+
+- [Hướng phát triển](#Hướng-phát-triển)
 
 
 # 0. Cách tải game
@@ -204,16 +209,22 @@ Sau khi hoàn tất lựa chọn, nút `PLAY` sẽ xuất hiện trên màn hìn
 
 ### Về đồ họa của game:
 
-- Tất cả hình ảnh trong game được em tự thiết kế trên [Canva](https://www.canva.com/). Bạn có thể xem chúng trong thư mục [Hình ảnh](assets/images).
+- Tất cả hình ảnh trong game được em tự thiết kế trên [Canva](https://www.canva.com/), có thể xem chúng trong thư mục [Hình ảnh](assets/images).
 - Âm thanh trong game được lấy từ nguồn [Mixkit](https://mixkit.co/free-sound-effects/game/) và được lưu trong thư mục [Âm thanh](assets/audio).
 - Phông chữ sử dụng trong game được tải từ [itch.io](https://itch.io/) và có sẵn trong thư mục [Phông chữ](assets/fonts).
+
+
+### Nguồn tham khảo
+- Em tham khảo video: [Let's Make Pong w/ C++ & SDL2 ](https://www.youtube.com/watch?v=DeKfZhwyFO4&t=1715s) (Chỉ tham khảo phần code logic của game truyền thống, còn lại là tự phát triển).
+
+- [Lazy Foo' Productions](https://lazyfoo.net/tutorials/SDL/index.php)
 
 
 ### Về source code của game:
 #### Folder `assets`
 - Folder `audio`: Chứa các tệp âm thanh sử dụng trong game, chẳng hạn như nhạc nền hoặc hiệu ứng âm thanh.
 - Folder `fonts`: Chứa các font chữ được sử dụng trong game.
-- Folder `image`s:Chứa tất cả các hình ảnh sử dụng trong game (được phân loại theo danh mục).
+- Folder `images`:Chứa tất cả các hình ảnh sử dụng trong game (được phân loại theo danh mục).
 
 #### Folder `src`
 - File `object.h` và `object.cpp`
@@ -257,3 +268,9 @@ Sau khi hoàn tất lựa chọn, nút `PLAY` sẽ xuất hiện trên màn hìn
       + `handleBallPosition()`: Kiểm tra và xử lý vị trí của bóng trong game.
       + `handleMouseClick(SDL_Event& e)`: Xử lý các click chuột của người chơi trong game.
       + `manageFrameRate()`: Quản lý tốc độ khung hình để đảm bảo game chạy mượt mà.
+
+### Hướng phát triển
+
+- Thêm chế độ chơi 2 người với một người điều khiển bằng chuột và một người điều khiển bằng bàn phím.
+- Mở rộng các mức độ khó, thêm chướng ngại vật mới như máy bắn đạn ở giữa sân, yêu cầu người chơi vừa đỡ bóng vừa né đạn để không bị mất mạng.
+- Bổ sung nhiều tùy chọn về hình nền của game, cùng với các chế độ đa dạng hơn cho quả bóng.
