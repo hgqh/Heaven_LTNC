@@ -1,5 +1,7 @@
 # HEAVEN PONG
-- Thử nghiệm game: 
+- Họ Và Tên: Đặng Vũ Quỳnh Hương
+- Mã sinh viên: 21020466 
+- Video DEMO: [DEMO](https://drive.google.com/file/d/1tStPAcgXEDYkvaGmnXFfY8X1kcvvOq4I/view?usp=drive_link)
 
 # Giới thiệu game
 
