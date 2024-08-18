@@ -229,20 +229,27 @@ Sau khi hoàn tất lựa chọn, nút `PLAY` sẽ xuất hiện trên màn hìn
 - Folder `images`:Chứa tất cả các hình ảnh sử dụng trong game (được phân loại theo danh mục).
 
 #### Folder `src`
-- File `object.h` và `object.cpp`
-  * `object.h`
-    + Cung cấp hàm để thiết lập vị trí, vùng hình ảnh, và tải hình ảnh từ tệp thành texture.
-    + Hàm getter trả về dest, src, và tex.
-  * object.cpp:
-    + Hiện thực hóa hàm setDest, setSource, và setImage.
-    + Giải phóng SDL_Surface sau khi tạo texture.
+- File `object.h`
+  + `setDest(int x, int y, int w, int h)`: Thiết lập vị trí và kích thước của đối tượng trên màn hình.
+  + `setSource(int x, int y, int w, int h)`: Thiết lập hình ảnh từ file để dùng cho đối tượng.
+  + `setImage(const std::string& filename, SDL_Renderer* renderer)`: Tải hình ảnh từ tệp và chuyển thành `SDL_Texture`.
+  + `getDest()`, `getSource()`, `getTex()`: Các hàm `getter` trả về thông tin về vị trí, nguồn ảnh và texture của đối tượng.
+- File `object.cpp`
+  +  `setDest` : Thiết lập giá trị cho thuộc tính `dest` của đối tượng.
+  + `setSource`: Thiết lập giá trị cho thuộc tính `src` của đối tượng.
+  + `setImage`: Tải hình ảnh từ tệp, chuyển thành `SDL_Texture`, và giải phóng `SDL_Surface`để tránh rò rỉ bộ nhớ.
 
-- File `menu.h` và `menu.cpp`
-  * `menu.h`:
-    - Quản lý `renderer`, `window`, `font`, `gnhacnen`, hiệu ứng âm thanh `gHigh`, và khu vực hiển thị điểm số `score_board`.
-    - Cung cấp các hàm để vẽ đối tượng `draw`, hiển thị văn bản `write`, hiển thị menu `renderMenu`, xử lý đầu vào `inputmenu`, và điều khiển vòng lặp chính của menu `run`.
-  * `menu.cpp`:
-    - Hiện thực hóa các hàm để vẽ đối tượng, hiển thị văn bản, hiển thị menu, xử lý sự kiện từ người dùng, và điều khiển vòng lặp chính.
+- File `menu.h`:
+  + `Menu()`: Khởi tạo cửa sổ, renderer, âm thanh, và phông chữ.
+  + `~Menu()`: Giải phóng tài nguyên khi kết thúc chương trình.
+  + `draw(Object o)`: Vẽ đối tượng lên màn hình.
+  + `write(std::string text, int x, int y)`: Hiển thị văn bản tại vị trí xác định.
+  + `renderMenu()`: Vẽ giao diện menu.
+  + `inputmenu()`: Xử lý đầu vào trong menu.
+  + `run()`: Chạy vòng lặp chính của menu.
+- File `menu.cpp`:
+  + Xử lý các sự kiện đầu vào như chuột và bàn phím trong menu.
+  + Điều khiển logic chính của menu và đổi chế độ.
 
 - `game.h` và `game.cpp`:
   * Khởi tạo và xử lý chính:
@@ -251,24 +258,24 @@ Sau khi hoàn tất lựa chọn, nút `PLAY` sẽ xuất hiện trên màn hìn
       + `loadAssets(`): Tải hình ảnh và tài nguyên game như hình nền, đối tượng, và các yếu tố giao diện.
   * Xử lý logic game:
       + `variable()`: Khởi tạo các biến cần thiết cho logic game.
-      + `serve()`: Khởi động lại vị trí của bóng khi bắt đầu hoặc sau khi ghi điểm.
-      + `update()`: Cập nhật trạng thái game trong mỗi khung hình.
-      + `inputgame()`: Xử lý các đầu vào từ người chơi trong quá trình game.
+      + `serve()`: Khởi tạo lại vị trí của bóng khi bắt đầu hoặc sau khi ghi điểm.
+      + `update()`: Cập nhật trạng thái game mỗi khung hình.
+      + `inputgame()`: Xử lý input từ người chơi trong quá trình chơi game.
       + `rungame()`: Chạy vòng lặp chính của game.
       + `runback()`: Xử lý các trạng thái quay lại trong game.
   * Giao diện người dùng và xử lý menu:
       + `draw(Object o)`: Vẽ các đối tượng lên màn hình.
       + `renderMenu()`: Hiển thị giao diện menu.
-      + `inputMenu()`: Xử lý các đầu vào từ người chơi trong giao diện menu.
+      + `inputMenu()`: Xử lý các input từ người chơi trong giao diện menu.
       + `runMenu()`: Vòng lặp để chạy giao diện menu.
       + `rendergame()`: Vẽ giao diện game trong quá trình chơi.
       + `write(std::string text, int x, int y, int r, int g, int b, int size)`: Hiển thị văn bản lên màn hình.
       + `displayMenuOptions()`: Hiển thị các tùy chọn trong menu.
   * Quản lý tương tác:
-      + `handlePaddleCollision()`: Xử lý va chạm giữa bóng và paddle.
-      + `calculateBounce(const SDL_Rect& paddle)`: Tính toán góc bật lại của bóng khi va chạm với paddle.
+      + `handlePaddleCollision()`: Xử lý va chạm giữa bóng và thanh chắn.
+      + `calculateBounce(const SDL_Rect& paddle)`: Tính toán góc bật lại của bóng khi va chạm với thanh chắn.
       + `handleBallPosition()`: Kiểm tra và xử lý vị trí của bóng trong game.
-      + `handleMouseClick(SDL_Event& e)`: Xử lý các click chuột của người chơi trong game.
+      + `handleMouseClick(SDL_Event& e)`: Xử lý các chuột của người chơi trong game.
       + `manageFrameRate()`: Quản lý tốc độ khung hình để đảm bảo game chạy mượt mà.
 
 ### Hướng phát triển
